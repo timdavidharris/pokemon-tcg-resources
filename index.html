@@ -95,8 +95,6 @@
       padding: 0.15rem 0.35rem 0.75rem;
     }
 
-    .lights { display: flex; gap: 0.4rem; flex-shrink: 0; }
-
     .light {
       width: 11px;
       height: 11px;
@@ -231,6 +229,46 @@
       font-weight: 700;
       cursor: pointer;
       line-height: 1;
+    }
+
+    /* ---------- TAG LEGEND ---------- */
+    .tag-legend {
+      background-color: var(--screen-dim);
+      border: 2px solid var(--ink);
+      padding: 0.6rem 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .tag-legend-title {
+      font-family: 'Press Start 2P', ui-monospace, monospace;
+      font-size: 0.55rem;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.4rem 0.75rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .legend-item:hover .legend-desc {
+      color: var(--ink);
+    }
+
+    .legend-desc {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.1;
+      transition: color 0.1s;
     }
 
     /* ---------- CATEGORY HEADERS (menu-select bar) ---------- */
@@ -418,20 +456,11 @@
 
   <div class="container">
     <div class="dex-shell pixel-lg">
-      <div class="dex-topbar">
-        <div class="lights">
-          <span class="light light-blue"></span>
-          <span class="light light-amber"></span>
-          <span class="light light-green"></span>
-        </div>
-        <div class="dex-brand">POKÉ TCG HUB</div>
-      </div>
 
       <div class="screen pixel-lg">
         <div class="scanlines"></div>
         <div class="screen-content">
 
-          <div class="boot-line">TRAINER TERMINAL — READY</div>
           <header>
             <h1>POKÉMON TCG<br>RESOURCE HUB</h1>
             <p>Essential sites and general resources for playing the Pokémon Trading Card Game, online and in person<span class="cursor">_</span></p>
@@ -443,6 +472,12 @@
               <input type="text" id="searchInput" placeholder="Search resources...">
               <button id="clearBtn" class="clear-btn" aria-label="Clear search">✕</button>
             </div>
+          </div>
+
+          <!-- TAG LEGEND -->
+          <div class="tag-legend pixel-sm">
+            <div class="tag-legend-title">TAG KEY</div>
+            <div id="tagLegendGrid" class="tag-legend-grid"></div>
           </div>
 
           <main id="linksContainer"></main>
@@ -517,20 +552,6 @@
         badge: "Tournaments"
       },
       {
-        name: "TCGPlayer",
-        url: "https://www.tcgplayer.com",
-        category: "Market & Prices",
-        description: "Primary marketplace for buying single cards and price charts.",
-        badge: "Market"
-      },
-      {
-        name: "Cardmarket",
-        url: "https://www.cardmarket.com",
-        category: "Market & Prices",
-        description: "European card marketplace for singles and sealed product.",
-        badge: "EU Market"
-      },
-      {
         name: "Official Rules & Docs",
         url: "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources",
         category: "Official & Rules",
@@ -595,18 +616,39 @@
       },
     ];
 
-    const badgeColors = {
-      "Essential": "var(--badge-essential)",
-      "Tournaments": "var(--badge-tournaments)",
-      "Market": "var(--badge-market)",
-      "EU Market": "var(--badge-market)",
-      "Official": "var(--badge-official)",
-      "News": "var(--badge-news)",
-      "Tool": "var(--badge-tool)",
-      "Rogue": "var(--badge-rogue)"
+    // SINGLE SOURCE OF TRUTH FOR BADGES (Color, Description, Light/Dark Text)
+    const badges = {
+      "Essential": {
+        color: "var(--badge-essential)",
+        description: "Core everyday sites",
+        darkText: false
+      },
+      "Tournaments": {
+        color: "var(--badge-tournaments)",
+        description: "Brackets & online play",
+        darkText: false
+      },
+      "Official": {
+        color: "var(--badge-official)",
+        description: "Rules & documents",
+        darkText: false
+      },
+      "News": {
+        color: "var(--badge-news)",
+        description: "Set announcements",
+        darkText: true
+      },
+      "Tool": {
+        color: "var(--badge-tool)",
+        description: "Loggers & quick refs",
+        darkText: false
+      },
+      "Rogue": {
+        color: "var(--badge-rogue)",
+        description: "Off-meta decklists",
+        darkText: false
+      }
     };
-
-    const badgeTextOnDark = new Set(["News"]);
 
     const categoryOrder = [
       "Deck Building & Meta",
@@ -615,6 +657,25 @@
       "Official & Rules",
       "Market & Prices"
     ];
+
+    function renderLegend() {
+      const grid = document.getElementById("tagLegendGrid");
+      grid.innerHTML = "";
+
+      Object.entries(badges).forEach(([name, data]) => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.dataset.badge = name;
+
+        const textColor = data.darkText ? "var(--screen)" : "var(--ink)";
+
+        item.innerHTML = `
+          <span class="badge" data-badge="${name}" style="background-color: ${data.color}; color: ${textColor};">${name}</span>
+          <span class="legend-desc">${data.description}</span>
+        `;
+        grid.appendChild(item);
+      });
+    }
 
     function renderLinks(filterText = "") {
       const container = document.getElementById("linksContainer");
@@ -656,7 +717,6 @@
           card.className = "card pixel-sm";
           card.href = item.url;
           
-          // Internal links open in same tab; external links open in new tab
           if (item.url.startsWith("./")) {
             card.target = "_self";
           } else {
@@ -664,8 +724,9 @@
             card.rel = "noopener noreferrer";
           }
 
-          const badgeBg = badgeColors[item.badge] || "var(--screen-dim)";
-          const badgeColor = badgeTextOnDark.has(item.badge) ? "var(--screen)" : "var(--ink)";
+          const badgeInfo = badges[item.badge] || { color: "var(--screen-dim)", darkText: false };
+          const badgeBg = badgeInfo.color;
+          const badgeColor = badgeInfo.darkText ? "var(--screen)" : "var(--ink)";
 
           card.innerHTML = `
             <div class="card-header">
@@ -684,28 +745,34 @@
     const searchInput = document.getElementById("searchInput");
     const clearBtn = document.getElementById("clearBtn");
 
+    function applyFilter(value) {
+      searchInput.value = value;
+      clearBtn.style.display = value ? "block" : "none";
+      renderLinks(value);
+    }
+
     searchInput.addEventListener("input", (e) => {
-      clearBtn.style.display = e.target.value ? "block" : "none";
-      renderLinks(e.target.value);
+      applyFilter(e.target.value);
     });
 
     clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      clearBtn.style.display = "none";
-      renderLinks("");
+      applyFilter("");
       searchInput.focus();
     });
 
-    // Tap a badge to filter by that badge, without following the card link
-    document.getElementById("linksContainer").addEventListener("click", (e) => {
-      const badge = e.target.closest(".badge");
-      if (!badge) return;
-      e.preventDefault();
-      e.stopPropagation();
-      const value = badge.dataset.badge;
-      searchInput.value = value;
-      clearBtn.style.display = "block";
-      renderLinks(value);
+    // Tap any badge (in cards or in legend) to filter by that badge
+    document.addEventListener("click", (e) => {
+      const badgeTarget = e.target.closest("[data-badge]");
+      if (!badgeTarget) return;
+
+      // Don't trigger link navigation when clicking badges inside cards
+      if (e.target.closest(".card")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      const value = badgeTarget.dataset.badge;
+      applyFilter(value);
       searchInput.scrollIntoView({ block: "start", behavior: "smooth" });
     });
 
@@ -730,6 +797,7 @@
       if (e.target === qrModal) qrModal.style.display = 'none';
     });
 
+    renderLegend();
     renderLinks();
   </script>
 </body>
