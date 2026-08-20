@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon TCG Resource Hub</title>
+  <style>
+:root {
+        --bg: #0f172a;
+        /* UPDATED CARD COLORS (Lighter Slate Gray) */
+        --card-bg: #334155;     /* Was #1e293b — significantly brighter default background */
+        --card-hover: #475569;  /* Was #334155 — lighter hover state to match */
+        --text: #f8fafc;
+        --text-muted: #cbd5e1;  /* Brightened slightly (was #94a3b8) so description text stays crisp */
+        --accent: #38bdf8;
+        --badge-bg: #0284c7;
+      }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.5rem 1rem;
+    }
+
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .search-box {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.85rem 2.5rem 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--card-hover);
+      background-color: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+    }
+
+    .clear-btn {
+      display: none;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .category-title {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin: 1.5rem 0 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .card {
+      display: block;
+      background-color: var(--card-bg);
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid transparent;
+      transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    @media (hover: hover) {
+      .card:hover {
+        background-color: var(--card-hover);
+        border-color: var(--accent);
+      }
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      color: white;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Pokémon TCG Resource Hub</h1>
+      <p>Essential sites and general resources for playing the Pokémon Trading Card Game (online and in person).</p>
+    </header>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search resources (e.g. Limitless, prices, rules)...">
+      <button id="clearBtn" class="clear-btn" aria-label="Clear search">✕</button>
+    </div>
+
+    <main id="linksContainer"></main>
+
+    <footer>
+      <p>Pokémon and all related names, images, and assets are trademarks of Nintendo, Creatures Inc., and GAME FREAK. This site is an independent project and is not affiliated with, endorsed, or sponsored by Nintendo, Creatures Inc., or GAME FREAK. This is simply a passion project by someone who loves the Pokemon TCG.</p>
+    </footer>
+  </div>
+
+  <script>
+    const resources = [
+      {
+        name: "Limitless TCG",
+        url: "https://limitlesstcg.com",
+        category: "Deck Building & Meta",
+        description: "Tournament decklists, metagame stats, and card database. Best for the competitive season.",
+        badge: "Essential"
+      },
+      {
+        name: "Main PTCG Subreddit",
+        url: "https://www.reddit.com/r/pkmntcg/",
+        category: "Community",
+        description: "The main subreddit for people playing the TCG in person.",
+        badge: "Essential"
+      },
+      {
+        name: "PTCG Live Subreddit",
+        url: "https://www.reddit.com/r/PTCGL/",
+        category: "Community",
+        description: "The main subreddit for people playing via the app PTCGL.",
+        badge: "Essential"
+      },
+      {
+        name: "Bill's Archive",
+        url: "https://billsarchive.com/calendar.html",
+        category: "Community",
+        description: "Full release calendar of sets and news about upcoming sets.",
+        badge: "News"
+      },
+      {
+        name: "PokeBeach",
+        url: "https://www.pokebeach.com/",
+        category: "Community",
+        description: "International news and meta analysis articles. This site often has the most recent news and focuses on what's released early internationally.",
+        badge: "News"
+      },
+      {
+        name: "Play! Limitless",
+        url: "https://play.limitlesstcg.com/decks",
+        category: "Deck Building & Meta",
+        description: "Online tournaments, pairings, and community standings. More updated meta deck rankings during the off season.",
+        badge: "Tournaments"
+      },
+      {
+        name: "TCGPlayer",
+        url: "https://www.tcgplayer.com",
+        category: "Market & Prices",
+        description: "Primary marketplace for buying single cards and price charts.",
+        badge: "Market"
+      },
+      {
+        name: "Cardmarket",
+        url: "https://www.cardmarket.com",
+        category: "Market & Prices",
+        description: "European card marketplace for singles and sealed product.",
+        badge: "EU Market"
+      },
+      {
+        name: "Official Rules & Docs",
+        url: "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources",
+        category: "Official & Rules",
+        description: "Official rulebooks and resources directly from Pokemon.com.",
+        badge: "Official"
+      },
+      {
+        name: "Rules & Rulings",
+        url: "https://compendium.pokegym.net/",
+        category: "Official & Rules",
+        description: "Official rulings from the The Pokémon Company, International (TPCi) which is compiled and published by Team Compendium, Inc.",
+        badge: "Official"
+      },
+      {
+        name: "Special Conditions Quick Reference",
+        url: "./special-condition-rules.html",
+        category: "Official & Rules",
+        description: "Quick reference rule cards to use for how special conditions work in the game. I put these together based on what's in the official rule book.",
+        badge: "Tool"
+      },
+      {
+        name: "Turn Actions Quick Reference",
+        url: "./turn-actions.html",
+        category: "Official & Rules",
+        description: "Quick reference card to remind you what actions you can only take 1 of per turn. I put these together based on what's in the official rule book.",
+        badge: "Tool"
+      },
+      {
+        name: "Official News about the TCG",
+        url: "https://www.pokemon.com/us/news/all/content-pillars.trading-card-game",
+        category: "Official & Rules",
+        description: "The latest news from Pokemon.com directly.",
+        badge: "News"
+      },
+      {
+        name: "Battle Log Viewer",
+        url: "https://www.trainingcourt.app/",
+        category: "PTCG Live",
+        description: "A site where you can track your win/lose rates for games on Live and even track your tournaments too. It offers a more readable format for reading PTCG Live logs.",
+        badge: "Tool"
+      },
+      {
+        name: "Recent Rogue Decks",
+        url: "https://roguewatchtower.com/",
+        category: "Deck Building & Meta",
+        description: "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
+        badge: "Rogue"
+      },
+      {
+        name: "TCG Live Replay Tool",
+        url: "https://www.ptcglreplay.com/",
+        category: "PTCG Live",
+        description: "A hugely impressive passion project that allows you to take your Live logs and watch them as a replay. Typically works best on a computer (vs mobile).",
+        badge: "Tool"
+      },
+      {
+        name: "Japanease Deck Lists",
+        url: "https://pokecabook.com/",
+        category: "Deck Building & Meta",
+        description: "<strong>Disclaimer</strong>: this site is in Japanease and can be difficult to navigate even after your browser translates it.<br><br>This is a great place to look at the cutting edge of what's emerging in Japan.",
+        badge: "Rogue"
+      },
+    ];
+
+    const badgeColors = {
+      "Essential": "#0284c7",
+      "Tournaments": "#059669",
+      "Market": "#d97706",
+      "EU Market": "#d97706",
+      "Official": "#2563eb",
+      "News": "#ea580c",
+      "Tool": "#7c3aed",
+      "Rogue": "#e11d48"
+    };
+
+    const categoryOrder = [
+      "Deck Building & Meta",
+      "Community",
+      "PTCG Live",
+      "Official & Rules",
+      "Market & Prices"
+    ];
+
+    function renderLinks(filterText = "") {
+      const container = document.getElementById("linksContainer");
+      container.innerHTML = "";
+
+      const query = filterText.toLowerCase();
+      const filtered = resources.filter(item => 
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query) ||
+        item.badge.toLowerCase().includes(query)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color: var(--text-muted); margin-top:2rem;">No matching resources found.</p>`;
+        return;
+      }
+
+      // Group and sort categories according to categoryOrder
+      const categories = [...new Set(filtered.map(item => item.category))].sort((a, b) => {
+        const indexA = categoryOrder.indexOf(a);
+        const indexB = categoryOrder.indexOf(b);
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+      });
+
+      categories.forEach(cat => {
+        const catHeader = document.createElement("h2");
+        catHeader.className = "category-title";
+        catHeader.textContent = cat;
+        container.appendChild(catHeader);
+
+        const list = document.createElement("div");
+        list.className = "link-list";
+
+        filtered.filter(item => item.category === cat).forEach(item => {
+          const card = document.createElement("a");
+          card.className = "card";
+          card.href = item.url;
+          card.target = "_blank";
+          card.rel = "noopener noreferrer";
+
+          const badgeBg = badgeColors[item.badge] || "var(--badge-bg)";
+
+          card.innerHTML = `
+            <div class="card-header">
+              <span class="card-title">${item.name}</span>
+              <span class="badge" style="background-color: ${badgeBg}">${item.badge}</span>
+            </div>
+            <div class="card-desc">${item.description}</div>
+          `;
+          list.appendChild(card);
+        });
+
+        container.appendChild(list);
+      });
+    }
+
+    const searchInput = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("clearBtn");
+
+    searchInput.addEventListener("input", (e) => {
+      clearBtn.style.display = e.target.value ? "block" : "none";
+      renderLinks(e.target.value);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      clearBtn.style.display = "none";
+      renderLinks("");
+      searchInput.focus();
+    });
+
+    renderLinks();
+  </script>
+</body>
+</html>
