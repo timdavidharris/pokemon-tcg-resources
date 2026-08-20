@@ -384,6 +384,17 @@ header p {
 }
 .share-link:active { background: var(--shell-dark); }
 
+/* ---------- SUPPORT (KO-FI) SHELL ---------- */
+.support-shell {
+  margin-top: 1rem;
+}
+
+.support-copy {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
 footer.legal {
   text-align: center;
   margin-top: 1.25rem;
