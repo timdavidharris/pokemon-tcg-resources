@@ -94,9 +94,9 @@ const resources = [
   },
   {
     name: "Trainer Hill",
-    url: "https://www.trainerhill.com/",
+    url: "https://tools.trainerhill.com/",
     category: "Deck Building & Meta",
-    description: "A site that tracks trends in the meta game to breakdown what's leading the pack. They also have a variety of tools to help with deck building, comparing decks, etc.",
+    description: "A site that tracks trends in the meta game to breakdown what's leading the pack.",
     badge: "Tournaments"
   },
   {
