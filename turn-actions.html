@@ -9,278 +9,93 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #0a0a12;
-      --shell: #d1382c;
-      --shell-dark: #7a1f16;
-      --shell-light: #ec5646;
-
-      --screen: #eef0da;
-      --screen-dim: #e1e3c6;
-      --screen-line: #c9cca9;
-
-      --ink: #1f2e1c;
-      --ink-soft: #52604a;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { -webkit-tap-highlight-color: transparent; }
-
-    body {
-      font-family: 'VT323', ui-monospace, monospace;
-      background-color: var(--bg);
-      background-image: radial-gradient(ellipse at top, rgba(209,56,44,0.10), transparent 60%);
-      color: var(--ink);
-      line-height: 1.4;
-      padding: 1.25rem 0.75rem 2.5rem;
-    }
-
-    .container {
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    /* PIXEL CORNERS */
-    .pixel-lg {
-      clip-path: polygon(
-        0 10px, 10px 10px, 10px 0,
-        calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
-        100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
-        10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px)
-      );
-    }
-    .pixel-sm {
-      clip-path: polygon(
-        0 6px, 6px 6px, 6px 0,
-        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
-        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
-        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
-      );
-    }
-
-    /* SHELL & SCREEN */
-    .dex-shell {
-      background: var(--shell);
-      background-image: linear-gradient(160deg, var(--shell-light) 0%, var(--shell) 35%, var(--shell-dark) 100%);
-      border: 3px solid var(--shell-dark);
-      padding: 0.85rem 0.85rem 0.6rem;
-      filter: drop-shadow(0 14px 0 rgba(0,0,0,0.35));
-    }
-
-    .dex-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0.15rem 0.35rem 0.6rem;
-    }
-
-    .dex-brand {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.65rem;
-      color: var(--screen);
-      letter-spacing: 0.02em;
-      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-    }
-
-    .screen {
-      background: var(--screen);
-      border: 3px solid var(--ink);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scanlines {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image: repeating-linear-gradient(
-        to bottom,
-        rgba(31,46,28,0.06) 0px,
-        rgba(31,46,28,0.06) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-      animation: flicker 6s infinite steps(1);
-      z-index: 5;
-    }
-
-    @keyframes flicker {
-      0%, 96%, 100% { opacity: 1; }
-      97% { opacity: 0.94; }
-      98% { opacity: 1; }
-    }
-
-    .screen-content {
-      padding: 0.9rem 0.85rem 1rem;
-      position: relative;
-    }
-
-    .back-link {
-      display: inline-block;
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.55rem;
-      color: var(--ink);
-      text-decoration: none;
-      background: var(--screen-dim);
-      border: 2px solid var(--ink);
-      padding: 0.4rem 0.6rem;
-      margin-bottom: 0.8rem;
-    }
-    .back-link:active { background: var(--ink); color: var(--screen); }
-
-    header h1 {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 1.05rem;
-      line-height: 1.4;
-      color: var(--ink);
-      margin-bottom: 0.4rem;
-    }
-
-    header p {
-      color: var(--ink-soft);
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-
-    /* ACTION CHECKLIST LISTING */
-    .action-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .action-row {
-      background-color: var(--screen-dim);
-      border: 2px solid var(--ink);
-      padding: 0.65rem 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .action-slot {
-      width: 42px;
-      height: 42px;
-      border: 2px dashed var(--ink);
-      background-color: var(--screen);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.9rem;
-      color: var(--ink);
-      opacity: 0.8;
-    }
-
-    .action-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .action-title {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.7rem;
-      color: var(--ink);
-      margin-bottom: 0.25rem;
-    }
-
-    .action-desc {
-      color: var(--ink-soft);
-      font-size: 1.05rem;
-      line-height: 1.2;
-    }
-
-    .card-footer {
-      margin-top: 1rem;
-      padding-top: 0.4rem;
-      border-top: 1px solid var(--screen-line);
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      text-transform: uppercase;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <div class="dex-shell pixel-lg">
-      <div class="dex-topbar">
+  <div class="pokedex pixel-outer">
+    
+    <div class="dex-topbar">
+      <div class="dex-lights">
+        <div class="big-lens"></div>
+        <div class="small-light red"></div>
+        <div class="small-light amber"></div>
+        <div class="small-light green"></div>
       </div>
-
-      <div class="screen pixel-lg">
-        <div class="scanlines"></div>
-        <div class="screen-content">
-
-          <a href="./index.html" class="back-link">◄ BACK TO HUB</a>
-
-          <header>
-            <h1>TURN ACTIONS</h1>
-            <p>Checklist for actions restricted to 1 per turn.</p>
-          </header>
-
-          <div class="action-list">
-
-            <!-- 1. DRAW CARD -->
-            <div class="action-row pixel-sm">
-              <div class="action-slot"> </div>
-              <div class="action-details">
-                <div class="action-title">DRAW CARD</div>
-                <div class="action-desc">Mandatory action taken at the start of your turn.</div>
-              </div>
-            </div>
-
-            <!-- 2. ATTACH ENERGY -->
-            <div class="action-row pixel-sm">
-              <div class="action-slot"> </div>
-              <div class="action-details">
-                <div class="action-title">ATTACH ENERGY</div>
-                <div class="action-desc">Attach 1 Energy card from hand to 1 Pokémon.</div>
-              </div>
-            </div>
-
-            <!-- 3. PLAY SUPPORTER -->
-            <div class="action-row pixel-sm">
-              <div class="action-slot"> </div>
-              <div class="action-details">
-                <div class="action-title">PLAY SUPPORTER</div>
-                <div class="action-desc">Max 1 per turn (player going first cannot play one on turn 1).</div>
-              </div>
-            </div>
-
-            <!-- 4. PLAY STADIUM -->
-            <div class="action-row pixel-sm">
-              <div class="action-slot"> </div>
-              <div class="action-details">
-                <div class="action-title">PLAY STADIUM</div>
-                <div class="action-desc">Max 1 per turn (cannot play a Stadium with the same name).</div>
-              </div>
-            </div>
-
-            <!-- 5. RETREAT POKÉMON -->
-            <div class="action-row pixel-sm">
-              <div class="action-slot"> </div>
-              <div class="action-details">
-                <div class="action-title">RETREAT POKÉMON</div>
-                <div class="action-desc">Pay Retreat Cost to switch Active Pokémon with a Benched one.</div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="card-footer">
-            <span>Turn Checklist</span>
-            <span>PTCG Quick Reference</span>
-          </div>
-
-        </div>
-      </div>
+      <div class="dex-brand">TRAINER TERMINAL v1.0</div>
     </div>
+
+    <div class="screen pixel-screen">
+      
+      <nav class="nav-header">
+        <a href="index.html" class="back-link pixel-sm">◄ RETURN TO MAIN HUB</a>
+      </nav>
+
+      <header class="title-bar">
+        <h1>Turn Actions Quick Reference</h1>
+        <p class="subtitle">Standard sequence and permitted actions during your turn</p>
+      </header>
+
+      <main class="actions-container">
+        
+        <div class="action-row pixel-sm">
+          <div class="action-slot"></div>
+          <div class="action-details">
+            <div class="action-title">DRAW CARD</div>
+            <div class="action-desc">Mandatory step at start of turn before taking any other actions.</div>
+          </div>
+        </div>
+
+        <div class="action-row pixel-sm">
+          <div class="action-slot"></div>
+          <div class="action-details">
+            <div class="action-title">ATTACH ENERGY</div>
+            <div class="action-desc">Max 1 Energy card per turn from hand to 1 Pokémon.</div>
+          </div>
+        </div>
+
+        <div class="action-row pixel-sm">
+          <div class="action-slot"></div>
+          <div class="action-details">
+            <div class="action-title">PLAY SUPPORTER</div>
+            <div class="action-desc">Max 1 per turn (player going first cannot play one on turn 1).</div>
+          </div>
+        </div>
+
+        <div class="action-row pixel-sm">
+          <div class="action-slot"></div>
+          <div class="action-details">
+            <div class="action-title">PLAY STADIUM</div>
+            <div class="action-desc">Max 1 per turn (cannot play a Stadium with the same name).</div>
+          </div>
+        </div>
+
+        <div class="action-row pixel-sm">
+          <div class="action-slot"></div>
+          <div class="action-details">
+            <div class="action-title">RETREAT POKÉMON</div>
+            <div class="action-desc">Pay Retreat Cost to switch Active Pokémon with a Benched one.</div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <footer class="dex-footer">
+      <div class="dpad">
+        <div class="dpad-h"></div>
+        <div class="dpad-v"></div>
+      </div>
+      <div class="speaker-grille">
+        <div class="speaker-line"></div>
+        <div class="speaker-line"></div>
+        <div class="speaker-line"></div>
+      </div>
+    </footer>
+
   </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
