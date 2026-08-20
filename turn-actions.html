@@ -1,221 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PTCG Turn Actions Tracker</title>
-<style>
-  * {
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  
-  body {
-    background-color: #0f172a;
-    color: #f8fafc;
-    padding: 1rem;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTCG Turn Actions Reference</title>
 
-  .nav-header {
-    width: 100%;
-    max-width: 340px;
-    margin-bottom: 1rem;
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  .back-link {
-    color: #38bdf8;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
+  <style>
+    :root {
+      --bg: #0a0a12;
+      --shell: #d1382c;
+      --shell-dark: #7a1f16;
+      --shell-light: #ec5646;
 
-  .pokemon-card {
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 5 / 7;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 16px;
-    padding: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    border: 8px solid #1d4ed8;
-    color: #1e293b;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
+      --screen: #eef0da;
+      --screen-dim: #e1e3c6;
+      --screen-line: #c9cca9;
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid rgba(0,0,0,0.15);
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-  }
+      --ink: #1f2e1c;
+      --ink-soft: #52604a;
 
-  .card-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
-  }
+      --light-blue: #4a90d9;
+      --light-amber: #e8b23f;
+      --light-green: #3fae58;
+    }
 
-  .card-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    background: #64748b;
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .action-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex-grow: 1;
-    justify-content: space-between;
-  }
+    html { -webkit-tap-highlight-color: transparent; }
 
-  .action-row {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 6px 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+    body {
+      font-family: 'VT323', ui-monospace, monospace;
+      background-color: var(--bg);
+      background-image: radial-gradient(ellipse at top, rgba(209,56,44,0.10), transparent 60%);
+      color: var(--ink);
+      line-height: 1.4;
+      padding: 1.25rem 0.75rem 2.5rem;
+    }
 
-  .die-slot {
-    width: 38px;
-    height: 38px;
-    outline: 2px dashed #64748b;
-    outline-offset: -2px;
-    border-radius: 6px;
-    background: rgba(241, 245, 249, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+    .container {
+      max-width: 560px;
+      margin: 0 auto;
+    }
 
-  .die-slot::after {
-    content: "🎲";
-    font-size: 1.2rem;
-    line-height: 1;
-    opacity: 0.35;
-  }
+    /* PIXEL CORNERS */
+    .pixel-lg {
+      clip-path: polygon(
+        0 10px, 10px 10px, 10px 0,
+        calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
+        100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+        10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px)
+      );
+    }
+    .pixel-sm {
+      clip-path: polygon(
+        0 6px, 6px 6px, 6px 0,
+        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+      );
+    }
 
-  .action-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+    /* SHELL & SCREEN */
+    .dex-shell {
+      background: var(--shell);
+      background-image: linear-gradient(160deg, var(--shell-light) 0%, var(--shell) 35%, var(--shell-dark) 100%);
+      border: 3px solid var(--shell-dark);
+      padding: 0.85rem 0.85rem 0.6rem;
+      filter: drop-shadow(0 14px 0 rgba(0,0,0,0.35));
+    }
 
-  .action-name {
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.2;
-  }
+    .dex-topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.15rem 0.35rem 0.75rem;
+    }
 
-  .action-desc {
-    font-size: 0.72rem;
-    color: #334155;
-    line-height: 1.25;
-  }
+    .lights { display: flex; gap: 0.4rem; flex-shrink: 0; }
 
-  .card-footer {
-    margin-top: 8px;
-    padding-top: 4px;
-    border-top: 1px solid rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: #475569;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-</style>
+    .light {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25), 0 0 6px currentColor;
+    }
+    .light-blue  { background: var(--light-blue);  color: var(--light-blue); }
+    .light-amber { background: var(--light-amber); color: var(--light-amber); }
+    .light-green { background: var(--light-green); color: var(--light-green); }
+
+    .dex-brand {
+      font-family: 'Press Start 2P', ui-monospace, monospace;
+      font-size: 0.65rem;
+      color: var(--screen);
+      letter-spacing: 0.02em;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    .screen {
+      background: var(--screen);
+      border: 3px solid var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(31,46,28,0.06) 0px,
+        rgba(31,46,28,0.06) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      animation: flicker 6s infinite steps(1);
+      z-index: 5;
+    }
+
+    @keyframes flicker {
+      0%, 96%, 100% { opacity: 1; }
+      97% { opacity: 0.94; }
+      98% { opacity: 1; }
+    }
+
+    .screen-content {
+      padding: 0.9rem 0.85rem 1rem;
+      position: relative;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-family: 'Press Start 2P', ui-monospace, monospace;
+      font-size: 0.55rem;
+      color: var(--ink);
+      text-decoration: none;
+      background: var(--screen-dim);
+      border: 2px solid var(--ink);
+      padding: 0.4rem 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .back-link:active { background: var(--ink); color: var(--screen); }
+
+    header h1 {
+      font-family: 'Press Start 2P', ui-monospace, monospace;
+      font-size: 1.05rem;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      color: var(--ink-soft);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ACTION CHECKLIST LISTING */
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .action-row {
+      background-color: var(--screen-dim);
+      border: 2px solid var(--ink);
+      padding: 0.65rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .check-box {
+      width: 42px;
+      height: 42px;
+      border: 2px dashed var(--ink);
+      background-color: var(--screen);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      opacity: 0.5;
+    }
+
+    .action-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .action-title {
+      font-family: 'Press Start 2P', ui-monospace, monospace;
+      font-size: 0.7rem;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .action-desc {
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .card-footer {
+      margin-top: 1rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--screen-line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+    }
+  </style>
 </head>
 <body>
 
-<div class="nav-header">
-  <a href="./index.html" class="back-link">← Back to Resource Hub</a>
-</div>
+  <div class="container">
+    <div class="dex-shell pixel-lg">
+      <div class="dex-topbar">
+        <div class="lights">
+          <span class="light light-blue"></span>
+          <span class="light light-amber"></span>
+          <span class="light light-green"></span>
+        </div>
+        <div class="dex-brand">POKÉ TCG HUB</div>
+      </div>
 
-<div class="pokemon-card">
-  <div class="card-header">
-    <span class="card-title">Turn Actions</span>
-    <span class="card-badge">Turn Tracker</span>
+      <div class="screen pixel-lg">
+        <div class="scanlines"></div>
+        <div class="screen-content">
+
+          <a href="./index.html" class="back-link">◄ BACK TO HUB</a>
+
+          <header>
+            <h1>TURN ACTIONS</h1>
+            <p>Checklist for actions restricted to 1 per turn.</p>
+          </header>
+
+          <div class="action-list">
+
+            <!-- 1. DRAW CARD -->
+            <div class="action-row pixel-sm">
+              <div class="check-box"> </div>
+              <div class="action-details">
+                <div class="action-title">DRAW CARD</div>
+                <div class="action-desc">Mandatory action taken at the start of your turn.</div>
+              </div>
+            </div>
+
+            <!-- 2. ATTACH ENERGY -->
+            <div class="action-row pixel-sm">
+              <div class="check-box"> </div>
+              <div class="action-details">
+                <div class="action-title">ATTACH ENERGY</div>
+                <div class="action-desc">Attach 1 Energy card from hand to 1 Pokémon.</div>
+              </div>
+            </div>
+
+            <!-- 3. PLAY SUPPORTER -->
+            <div class="action-row pixel-sm">
+              <div class="check-box"> </div>
+              <div class="action-details">
+                <div class="action-title">PLAY SUPPORTER</div>
+                <div class="action-desc">Max 1 per turn (player going first cannot play one on turn 1).</div>
+              </div>
+            </div>
+
+            <!-- 4. PLAY STADIUM -->
+            <div class="action-row pixel-sm">
+              <div class="check-box"> </div>
+              <div class="action-details">
+                <div class="action-title">PLAY STADIUM</div>
+                <div class="action-desc">Max 1 per turn (cannot play a Stadium with the same name).</div>
+              </div>
+            </div>
+
+            <!-- 5. RETREAT POKÉMON -->
+            <div class="action-row pixel-sm">
+              <div class="check-box"> </div>
+              <div class="action-details">
+                <div class="action-title">RETREAT POKÉMON</div>
+                <div class="action-desc">Pay Retreat Cost to switch Active Pokémon with a Benched one.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+            <span>Turn Checklist</span>
+            <span>PTCG Quick Reference</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="action-list">
-    
-    <!-- 1. DRAW CARD -->
-    <div class="action-row">
-      <div class="die-slot"></div>
-      <div class="action-details">
-        <div class="action-name">Draw Card</div>
-        <div class="action-desc">Mandatory at start of turn</div>
-      </div>
-    </div>
-
-    <!-- 2. ATTACH ENERGY -->
-    <div class="action-row">
-      <div class="die-slot"></div>
-      <div class="action-details">
-        <div class="action-name">Attach Energy</div>
-        <div class="action-desc">1 Energy from hand to 1 Pokémon</div>
-      </div>
-    </div>
-
-    <!-- 3. PLAY SUPPORTER -->
-    <div class="action-row">
-      <div class="die-slot"></div>
-      <div class="action-details">
-        <div class="action-name">Play Supporter</div>
-        <div class="action-desc">Max 1 per turn (None Turn 1)</div>
-      </div>
-    </div>
-
-    <!-- 4. PLAY STADIUM -->
-    <div class="action-row">
-      <div class="die-slot"></div>
-      <div class="action-details">
-        <div class="action-name">Play Stadium</div>
-        <div class="action-desc">Max 1 per turn (No duplicate names)</div>
-      </div>
-    </div>
-
-    <!-- 5. RETREAT POKÉMON -->
-    <div class="action-row">
-      <div class="die-slot"></div>
-      <div class="action-details">
-        <div class="action-name">Retreat Pokémon</div>
-        <div class="action-desc">Pay cost to switch Active to Bench</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="card-footer">
-    <span>Turn Checklist</span>
-    <span>PTCG Rule Card</span>
-  </div>
-</div>
 
 </body>
 </html>
