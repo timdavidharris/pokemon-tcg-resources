@@ -8,209 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #0a0a12;
-      --shell: #d1382c;
-      --shell-dark: #7a1f16;
-      --shell-light: #ec5646;
-
-      --screen: #eef0da;
-      --screen-dim: #e1e3c6;
-      --screen-line: #c9cca9;
-
-      --ink: #1f2e1c;
-      --ink-soft: #52604a;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { -webkit-tap-highlight-color: transparent; }
-
-    body {
-      font-family: 'VT323', ui-monospace, monospace;
-      background-color: var(--bg);
-      background-image: radial-gradient(ellipse at top, rgba(209,56,44,0.10), transparent 60%);
-      color: var(--ink);
-      line-height: 1.4;
-      padding: 1.25rem 0.75rem 2.5rem;
-    }
-
-    .container {
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    /* PIXEL CORNERS */
-    .pixel-lg {
-      clip-path: polygon(
-        0 10px, 10px 10px, 10px 0,
-        calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
-        100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
-        10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px)
-      );
-    }
-    .pixel-sm {
-      clip-path: polygon(
-        0 6px, 6px 6px, 6px 0,
-        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
-        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
-        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
-      );
-    }
-
-    /* SHELL & SCREEN */
-    .dex-shell {
-      background: var(--shell);
-      background-image: linear-gradient(160deg, var(--shell-light) 0%, var(--shell) 35%, var(--shell-dark) 100%);
-      border: 3px solid var(--shell-dark);
-      padding: 0.85rem 0.85rem 0.6rem;
-      filter: drop-shadow(0 14px 0 rgba(0,0,0,0.35));
-    }
-
-    .dex-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0.15rem 0.35rem 0.6rem;
-    }
-
-    .dex-brand {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.65rem;
-      color: var(--screen);
-      letter-spacing: 0.02em;
-      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-    }
-
-    .screen {
-      background: var(--screen);
-      border: 3px solid var(--ink);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scanlines {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image: repeating-linear-gradient(
-        to bottom,
-        rgba(31,46,28,0.06) 0px,
-        rgba(31,46,28,0.06) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-      animation: flicker 6s infinite steps(1);
-      z-index: 5;
-    }
-
-    @keyframes flicker {
-      0%, 96%, 100% { opacity: 1; }
-      97% { opacity: 0.94; }
-      98% { opacity: 1; }
-    }
-
-    .screen-content {
-      padding: 0.9rem 0.85rem 1rem;
-      position: relative;
-    }
-
-    .back-link {
-      display: inline-block;
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.55rem;
-      color: var(--ink);
-      text-decoration: none;
-      background: var(--screen-dim);
-      border: 2px solid var(--ink);
-      padding: 0.4rem 0.6rem;
-      margin-bottom: 0.8rem;
-    }
-    .back-link:active { background: var(--ink); color: var(--screen); }
-
-    header h1 {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 1.05rem;
-      line-height: 1.4;
-      color: var(--ink);
-      margin-bottom: 0.4rem;
-    }
-
-    header p {
-      color: var(--ink-soft);
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-
-    .card-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    /* RETRO CARD STYLING */
-    .rule-card {
-      background-color: var(--screen-dim);
-      border: 2px solid var(--ink);
-      padding: 0.8rem;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px dashed var(--ink-soft);
-      padding-bottom: 0.4rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .card-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .card-icon {
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    .card-title {
-      font-family: 'Press Start 2P', ui-monospace, monospace;
-      font-size: 0.75rem;
-      color: var(--ink);
-    }
-
-    .card-badge {
-      font-family: 'VT323', monospace;
-      font-weight: 700;
-      font-size: 0.85rem;
-      background: var(--ink);
-      color: var(--screen);
-      padding: 0.1rem 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .card-text {
-      color: var(--ink);
-      font-size: 1.1rem;
-      line-height: 1.35;
-    }
-
-    .card-footer {
-      margin-top: 0.6rem;
-      padding-top: 0.3rem;
-      border-top: 1px solid var(--screen-line);
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      text-transform: uppercase;
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
@@ -234,10 +32,10 @@
 
             <!-- POISONED -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">☠️</span>
-                  <span class="card-title">POISONED</span>
+                  <span class="rule-title">POISONED</span>
                 </div>
                 <span class="card-badge">1st IN CHECKUP</span>
               </div>
@@ -246,7 +44,7 @@
                 During Pokémon Checkup, place 1 damage counter on your Poisoned Pokémon.<br><br>
                 A Pokémon cannot have two Poison markers; a new Poison condition simply replaces the old one.
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Special Condition</span>
                 <span>PTCG Rule</span>
               </div>
@@ -254,10 +52,10 @@
 
             <!-- BURNED -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">🔥</span>
-                  <span class="card-title">BURNED</span>
+                  <span class="rule-title">BURNED</span>
                 </div>
                 <span class="card-badge">2nd IN CHECKUP</span>
               </div>
@@ -266,7 +64,7 @@
                 During Pokémon Checkup, place 2 damage counters on your Burned Pokémon, then flip a coin. If heads, it recovers (remove marker).<br><br>
                 A new Burn condition replaces the old one.
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Special Condition</span>
                 <span>PTCG Rule</span>
               </div>
@@ -274,10 +72,10 @@
 
             <!-- ASLEEP -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">💤</span>
-                  <span class="card-title">ASLEEP</span>
+                  <span class="rule-title">ASLEEP</span>
                 </div>
                 <span class="card-badge">3rd IN CHECKUP</span>
               </div>
@@ -286,7 +84,7 @@
                 Asleep Pokémon cannot attack or retreat.<br><br>
                 During Pokémon Checkup, flip a coin. Heads = recovers (rotate right-side up). Tails = stays Asleep.
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Special Condition</span>
                 <span>PTCG Rule</span>
               </div>
@@ -294,10 +92,10 @@
 
             <!-- PARALYZED -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">⚡</span>
-                  <span class="card-title">PARALYZED</span>
+                  <span class="rule-title">PARALYZED</span>
                 </div>
                 <span class="card-badge">4th IN CHECKUP</span>
               </div>
@@ -306,7 +104,7 @@
                 Paralyzed Pokémon cannot attack or retreat.<br><br>
                 Recovers automatically during Pokémon Checkup after its owner's next turn.
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Special Condition</span>
                 <span>PTCG Rule</span>
               </div>
@@ -314,10 +112,10 @@
 
             <!-- CONFUSED -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">💫</span>
-                  <span class="card-title">CONFUSED</span>
+                  <span class="rule-title">CONFUSED</span>
                 </div>
                 <span class="card-badge">ATTACK CHECK</span>
               </div>
@@ -325,7 +123,7 @@
                 Rotate card upside down.<br><br>
                 You must flip a coin before attacking. Heads = attack works normally. Tails = attack fails, and place 3 damage counters on your Confused Pokémon.
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Special Condition</span>
                 <span>PTCG Rule</span>
               </div>
@@ -333,10 +131,10 @@
 
             <!-- RECOVERING & OVERLAP -->
             <div class="rule-card pixel-sm">
-              <div class="card-header">
+              <div class="rule-header">
                 <div class="card-title-wrap">
                   <span class="card-icon">✨</span>
-                  <span class="card-title">GENERAL RULES</span>
+                  <span class="rule-title">GENERAL RULES</span>
                 </div>
                 <span class="card-badge">OVERLAP RULES</span>
               </div>
@@ -345,7 +143,7 @@
                 Since Asleep, Confused, and Paralyzed all rotate the card, whichever happened last overrides previous orientation conditions.<br><br>
                 Poisoned & Burned use markers, so a Pokémon can be Burned, Paralyzed, and Poisoned all at once!
               </div>
-              <div class="card-footer">
+              <div class="rule-footer">
                 <span>Core Mechanics</span>
                 <span>PTCG Rule</span>
               </div>
