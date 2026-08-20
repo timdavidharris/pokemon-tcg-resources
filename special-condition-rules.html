@@ -2,47 +2,61 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTCG Special Conditions Reference</title>
 <style>
   * {
     box-sizing: border-box;
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   
   body {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 30px 15px;
+    padding: 1rem;
     margin: 0;
-    display: flex;
-    justify-content: center;
+  }
+
+  .nav-header {
+    max-width: 1000px;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  .back-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   .card-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
     justify-content: center;
   }
 
-  /* Standard Pokémon card size: 2.5 in x 3.5 in */
+  /* Responsive card sizing maintaining 2.5 x 3.5 ratio */
   .pokemon-card {
-    width: 2.5in;
-    height: 3.5in;
+    width: 100%;
+    aspect-ratio: 5 / 7;
     background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 0 0 1px #f8fafc;
-    border: 6px solid #ffcb05;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 8px solid #ffcb05;
     color: #1e293b;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
   }
 
-  /* Distinct card themes based on condition type */
   .card-burned {
     background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
     border-color: #ef4444;
@@ -72,77 +86,78 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1.5px solid rgba(0,0,0,0.15);
-    padding-bottom: 3px;
-    margin-bottom: 5px;
+    border-bottom: 2px solid rgba(0,0,0,0.15);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
   }
 
   .card-title {
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: 0.2px;
     text-transform: uppercase;
   }
 
   .card-badge {
-    font-size: 0.5rem;
+    font-size: 0.65rem;
     font-weight: 700;
     background: rgba(0,0,0,0.75);
     color: #fff;
-    padding: 2px 5px;
-    border-radius: 8px;
+    padding: 3px 8px;
+    border-radius: 12px;
     text-transform: uppercase;
     white-space: nowrap;
   }
 
   .illustration-frame {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.65);
     border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 6px;
-    height: 42px;
+    border-radius: 8px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 8px;
     flex-shrink: 0;
   }
 
   .illustration-icon {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
   }
 
   .text-box {
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 6px;
-    padding: 6px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 10px;
     flex-grow: 1;
-    font-size: 0.68rem;
-    line-height: 1.25;
+    font-size: 0.82rem;
+    line-height: 1.35;
     border: 1px solid rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   .card-footer {
-    margin-top: 4px;
-    padding-top: 2px;
+    margin-top: 8px;
+    padding-top: 4px;
     border-top: 1px solid rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
-    font-size: 0.45rem;
-    font-weight: 600;
+    font-size: 0.6rem;
+    font-weight: 700;
     color: #475569;
     text-transform: uppercase;
     flex-shrink: 0;
   }
-
-  }
 </style>
 </head>
 <body>
+
+<div class="nav-header">
+  <a href="./index.html" class="back-link">← Back to Resource Hub</a>
+</div>
 
 <div class="card-grid">
 
