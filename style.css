@@ -1,0 +1,593 @@
+:root {
+  /* TRAINER'S TERMINAL — Pokédex hardware + LCD screen palette */
+  --bg: #0a0a12;
+
+  --shell: #d1382c;        /* Pokédex red exterior */
+  --shell-dark: #7a1f16;   /* shell shading / borders */
+  --shell-light: #ec5646;  /* shell highlight */
+
+  --screen: #eef0da;       /* LCD screen background (cream) */
+  --screen-dim: #e1e3c6;   /* card fill on screen, slightly deeper */
+  --screen-line: #c9cca9;  /* hairlines on screen */
+
+  --ink: #1f2e1c;          /* primary "LCD ink" text */
+  --ink-soft: #52604a;     /* muted LCD text */
+
+  --light-blue: #4a90d9;
+  --light-amber: #e8b23f;
+  --light-green: #3fae58;
+
+  --badge-essential: #86c88a;
+  --badge-tools: #f1b369;
+  --badge-db: #e78280;
+  --badge-meta: #e587b9;
+  --badge-news: #99b3f1;
+  --badge-tournaments: #bf99f1;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html { 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+body {
+  font-family: 'VT323', ui-monospace, monospace;
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.25;
+  padding: 1.5rem 0.75rem;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* ---------- PIXEL BORDER UTILITY CLASSES ---------- */
+/* Large pixel border for outer hardware frame */
+.pixel-outer {
+  box-shadow:
+    0 -6px 0 0 var(--shell-dark),
+    0 6px 0 0 var(--shell-dark),
+    -6px 0 0 0 var(--shell-dark),
+    6px 0 0 0 var(--shell-dark),
+    0 0 0 3px #000,
+    0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Screen pixel bezel */
+.pixel-screen {
+  box-shadow:
+    inset 0 0 0 3px var(--shell-dark),
+    0 -3px 0 0 var(--ink),
+    0 3px 0 0 var(--ink),
+    -3px 0 0 0 var(--ink),
+    3px 0 0 0 var(--ink);
+}
+
+/* Small pixel inset/border for cards, inputs, and elements */
+.pixel-sm {
+  box-shadow:
+    0 -2px 0 0 var(--ink),
+    0 2px 0 0 var(--ink),
+    -2px 0 0 0 var(--ink),
+    2px 0 0 0 var(--ink);
+}
+
+/* ---------- POKÉDEX FRAME ---------- */
+.pokedex {
+  width: 100%;
+  max-width: 960px;
+  background-color: var(--shell);
+  padding: 1rem;
+  position: relative;
+}
+
+.pokedex::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-color: var(--shell-light);
+  pointer-events: none;
+}
+
+/* Top Hardware Bar (Lights + Brand) */
+.dex-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 3px solid var(--shell-dark);
+  margin-bottom: 1rem;
+}
+
+.dex-lights {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.big-lens {
+  width: 32px;
+  height: 32px;
+  background: var(--light-blue);
+  border: 3px solid #000;
+  box-shadow: inset -3px -3px 0 0 #285ca3, inset 3px 3px 0 0 #95c4ff;
+}
+
+.small-light {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #000;
+}
+.small-light.red { background: var(--shell); }
+.small-light.amber { background: var(--light-amber); }
+.small-light.green { background: var(--light-green); }
+
+.dex-brand {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.65rem;
+  color: var(--screen);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--shell-dark);
+}
+
+/* LCD Screen Area */
+.screen {
+  background-color: var(--screen);
+  padding: 1rem;
+  color: var(--ink);
+  position: relative;
+}
+
+/* Scanline Overlay */
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03),
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+/* ---------- HEADER & TITLE ---------- */
+.title-bar {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px dashed var(--screen-line);
+}
+
+h1 {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- SHARED NAVIGATION HEADER ---------- */
+.nav-header {
+  margin-bottom: 1rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  color: var(--ink);
+  background: var(--screen-dim);
+  padding: 0.4rem 0.6rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.back-link:hover {
+  background: var(--ink);
+  color: var(--screen);
+}
+
+/* ---------- SEARCH BAR & CONTROLS ---------- */
+.controls-area {
+  margin-bottom: 1rem;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  background: #ffffff;
+  border: 3px solid var(--ink);
+  padding: 0.5rem 2.2rem 0.5rem 0.65rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.35rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--ink-soft);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--shell);
+  color: #fff;
+  border: 1px solid var(--ink);
+  width: 22px;
+  height: 22px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+}
+
+/* ---------- LEGEND BAR ---------- */
+.legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  margin-top: 0.65rem;
+}
+
+.legend-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: var(--ink-soft);
+  margin-right: 0.2rem;
+}
+
+/* ---------- BADGES ---------- */
+.badge {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  padding: 0.25rem 0.4rem;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+}
+
+.badge.active-filter {
+  outline: 2px solid var(--ink);
+  box-shadow: 0 0 0 1px #fff;
+}
+
+/* ---------- CATEGORY HEADERS ---------- */
+.category-title {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--screen-line);
+  padding: 0.35rem 0.6rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.65rem;
+  border-left: 4px solid var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- MAIN RESOURCE CARDS GRID (index.html) ---------- */
+.link-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  background-color: var(--screen-dim);
+  padding: 0.75rem;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid var(--ink);
+  transition: transform 0.1s, background-color 0.1s;
+  position: relative;
+}
+
+.card:hover {
+  background-color: #f7f9e8;
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.card-title {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.card-desc {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  line-height: 1.2;
+}
+
+/* ---------- SPECIAL CONDITIONS CARDS GRID (special-condition-rules.html) ---------- */
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.rule-card {
+  background-color: var(--screen-dim);
+  border: 2px solid var(--ink);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rule-card .card-header {
+  border-bottom: 2px dashed var(--screen-line);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.card-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.card-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  background: var(--ink);
+  color: var(--screen);
+  padding: 0.2rem 0.35rem;
+}
+
+.card-text {
+  font-size: 1.25rem;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--screen-line);
+  padding-top: 0.4rem;
+}
+
+/* Condition Orientations & Icons */
+.card-asleep .card-icon { transform: rotate(-90deg); display: inline-block; }
+.card-paralyzed .card-icon { transform: rotate(90deg); display: inline-block; }
+.card-confused .card-icon { transform: rotate(180deg); display: inline-block; }
+
+/* ---------- TURN ACTIONS LIST (turn-actions.html) ---------- */
+.actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.action-row {
+  background-color: var(--screen-dim);
+  border: 2px solid var(--ink);
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.action-slot {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--ink);
+  background: var(--screen);
+  flex-shrink: 0;
+}
+
+.action-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.action-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+}
+
+.action-desc {
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  line-height: 1.15;
+}
+
+/* ---------- QR MODAL ---------- */
+.qr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  background: var(--shell);
+  color: var(--screen);
+  border: 2px solid var(--ink);
+  padding: 0.65rem;
+  font-family: 'VT323', monospace;
+  font-weight: bold;
+  font-size: 1.35rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.qr-btn:hover {
+  background: var(--shell-dark);
+  transform: translateY(-1px);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 18, 0.85);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: var(--screen);
+  border: 4px solid var(--ink);
+  padding: 1.25rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.modal-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+
+.qr-container {
+  background: #ffffff;
+  padding: 0.5rem;
+  border: 2px solid var(--ink);
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.qr-container img {
+  display: block;
+  width: 180px;
+  height: 180px;
+  image-rendering: pixelated;
+}
+
+.close-btn {
+  background: var(--shell);
+  color: var(--screen);
+  border: 2px solid var(--ink);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: var(--shell-dark);
+}
+
+/* ---------- HARDWARE BOTTOM BAR ---------- */
+.dex-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 3px solid var(--shell-dark);
+}
+
+.dpad {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+.dpad-h {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 36px;
+  height: 12px;
+  background: var(--shell-dark);
+  border: 1px solid #000;
+}
+.dpad-v {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  width: 12px;
+  height: 36px;
+  background: var(--shell-dark);
+  border: 1px solid #000;
+}
+
+.speaker-grille {
+  display: flex;
+  gap: 4px;
+}
+.speaker-line {
+  width: 4px;
+  height: 24px;
+  background: var(--shell-dark);
+  border: 1px solid #000;
+}
+
+/* ---------- RESPONSIVE BREAKPOINTS ---------- */
+@media (max-width: 480px) {
+  body { padding: 0.5rem 0.25rem; }
+  .pokedex { padding: 0.65rem; }
+  .screen { padding: 0.65rem; }
+  h1 { font-size: 0.95rem; }
+  .link-list, .conditions-grid { grid-template-columns: 1fr; }
+  .dex-brand { font-size: 0.55rem; }
+}
