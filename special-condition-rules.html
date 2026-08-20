@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  }
+  
+  body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 30px 15px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    justify-content: center;
+  }
+
+  /* Standard Pokémon card size: 2.5 in x 3.5 in */
+  .pokemon-card {
+    width: 2.5in;
+    height: 3.5in;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 0 0 1px #f8fafc;
+    border: 6px solid #ffcb05;
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Distinct card themes based on condition type */
+  .card-burned {
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border-color: #ef4444;
+  }
+  .card-asleep {
+    background: linear-gradient(135deg, #f0f9ff 0%, #bae6fd 100%);
+    border-color: #0284c7;
+  }
+  .card-confused {
+    background: linear-gradient(135deg, #fdf4ff 0%, #f5d0fe 100%);
+    border-color: #c084fc;
+  }
+  .card-paralyzed {
+    background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%);
+    border-color: #eab308;
+  }
+  .card-poisoned {
+    background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+    border-color: #22c55e;
+  }
+  .card-recovering {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-color: #64748b;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid rgba(0,0,0,0.15);
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+
+  .card-badge {
+    font-size: 0.5rem;
+    font-weight: 700;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .illustration-frame {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+  }
+
+  .illustration-icon {
+    font-size: 1.3rem;
+  }
+
+  .text-box {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 6px;
+    padding: 6px;
+    flex-grow: 1;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    margin-top: 4px;
+    padding-top: 2px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.45rem;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  }
+</style>
+</head>
+<body>
+
+<div class="card-grid">
+
+  <!-- POISONED CARD -->
+  <div class="pokemon-card card-poisoned">
+    <div class="card-header">
+      <span class="card-title">Poisoned</span>
+      <span class="card-badge">1st in checkup</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">☠️</span>
+    </div>
+    <div class="text-box">
+      When a Pokémon is Poisoned, put a Poison marker on it.<br><br>During Pokémon Checkup, place a damage counter on your Poisoned Pokémon.<br><br>A Pokémon cannot have two Poison markers; if an attack gives it another Poison marker, the new Poisoned Condition simply replaces the old one.
+    </div>
+    <div class="card-footer">
+      <span>Special Condition</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- BURNED CARD -->
+  <div class="pokemon-card card-burned">
+    <div class="card-header">
+      <span class="card-title">Burned</span>
+      <span class="card-badge">2nd in checkup</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">🔥</span>
+    </div>
+    <div class="text-box">
+      When a Pokémon is Burned, put a Burn marker on it.<br><br>During Pokémon Checkup, place 2 damage counters on your Burned Pokémon, then flip a coin. If heads, the Pokémon recovers (remove the Burn marker).<br><br>A Pokémon cannot have two Burn markers; if an attack gives it another Burn marker, the new Burned Condition simply replaces the old one.
+    </div>
+    <div class="card-footer">
+      <span>Special Condition</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- ASLEEP CARD -->
+  <div class="pokemon-card card-asleep">
+    <div class="card-header">
+      <span class="card-title">Asleep</span>
+      <span class="card-badge">3rd in checkup</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">💤</span>
+    </div>
+    <div class="text-box">
+      Turn the Pokémon counterclockwise to show that it is Asleep.<br><br>If a Pokémon is Asleep, it cannot attack or retreat.<br><br>During Pokémon Checkup, flip a coin. If you flip heads, the Pokémon recovers (turn the card right-side up), but if you flip tails, it stays Asleep.
+    </div>
+    <div class="card-footer">
+      <span>Special Condition</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- PARALYZED CARD -->
+  <div class="pokemon-card card-paralyzed">
+    <div class="card-header">
+      <span class="card-title">Paralyzed</span>
+      <span class="card-badge">4th in checkup</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">⚡</span>
+    </div>
+    <div class="text-box">
+      Turn a Paralyzed Pokémon clockwise to show that it is Paralyzed.<br><br>If a Pokémon is Paralyzed, it cannot attack or retreat.<br><br>After its owner’s next turn, it recovers during Pokémon Checkup (turn the card right-side up).
+    </div>
+    <div class="card-footer">
+      <span>Special Condition</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- CONFUSED CARD -->
+  <div class="pokemon-card card-confused">
+    <div class="card-header">
+      <span class="card-title">Confused</span>
+      <span class="card-badge">Special Condition</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">💫</span>
+    </div>
+    <div class="text-box">
+      Turn a Confused Pokémon with the top of the card pointed toward you to show that it is Confused.<br><br>If your Pokémon is Confused, you must flip a coin before attacking with it.<br><br>If heads, the attack works normally. If tails, the attack doesn’t happen, and you place 3 damage counters on your Confused Pokémon.
+    </div>
+    <div class="card-footer">
+      <span>Special Condition</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- RECOVERING CARD -->
+  <div class="pokemon-card card-recovering">
+    <div class="card-header">
+      <span class="card-title">Recovering</span>
+      <span class="card-badge">Rules</span>
+    </div>
+    <div class="illustration-frame">
+      <span class="illustration-icon">✨</span>
+    </div>
+    <div class="text-box">
+      When a Pokémon evolves or moves to the Bench, it recovers from all Special Conditions. The only Special Conditions that prevent Pokémon from retreating are Asleep and Paralyzed.<br><br>Since Asleep, Confused, and Paralyzed all rotate the Pokémon card, whichever one happened last to the Pokémon is the only one that is still in effect. Since Poisoned and Burned use markers, those don’t affect other Special Conditions.<br><br>A Pokémon can be Burned, Paralyzed, and Poisoned all at the same time!
+    </div>
+    <div class="card-footer">
+      <span>General Rules</span>
+      <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
