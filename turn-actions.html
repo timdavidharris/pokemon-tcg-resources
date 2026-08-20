@@ -2,61 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTCG Turn Actions Tracker</title>
 <style>
   * {
     box-sizing: border-box;
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   
   body {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 30px 15px;
+    padding: 1rem;
     margin: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* Standard Pokémon card size: 2.5 in x 3.5 in */
+  .nav-header {
+    width: 100%;
+    max-width: 340px;
+    margin-bottom: 1rem;
+  }
+
+  .back-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
   .pokemon-card {
-    width: 2.5in;
-    height: 3.5in;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 5 / 7;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 12px;
-    padding: 7px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 0 0 1px #f8fafc;
-    border: 6px solid #1d4ed8;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 8px solid #1d4ed8;
     color: #1e293b;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
   }
 
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1.5px solid rgba(0,0,0,0.15);
-    padding-bottom: 2px;
-    margin-bottom: 4px;
+    border-bottom: 2px solid rgba(0,0,0,0.15);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
   }
 
   .card-title {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: 0.2px;
     text-transform: uppercase;
   }
 
   .card-badge {
-    font-size: 0.48rem;
+    font-size: 0.65rem;
     font-weight: 700;
     background: #64748b;
     color: #fff;
-    padding: 2px 5px;
-    border-radius: 8px;
+    padding: 3px 8px;
+    border-radius: 12px;
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -64,39 +82,37 @@
   .action-list {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 6px;
     flex-grow: 1;
     justify-content: space-between;
   }
 
   .action-row {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    padding: 3px 6px;
+    border-radius: 8px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
-    gap: 6px;
-    overflow: visible;
+    gap: 10px;
   }
 
   .die-slot {
-    width: 0.38in;
-    height: 0.38in;
-    outline: 1.5px dashed #64748b;
+    width: 38px;
+    height: 38px;
+    outline: 2px dashed #64748b;
     outline-offset: -2px;
-    border-radius: 4px;
+    border-radius: 6px;
     background: rgba(241, 245, 249, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin: 2px 4px 2px 2px;
   }
 
   .die-slot::after {
     content: "🎲";
-    font-size: 0.24in;
+    font-size: 1.2rem;
     line-height: 1;
     opacity: 0.35;
   }
@@ -107,38 +123,38 @@
     justify-content: center;
   }
 
-  /* Increased title font size */
   .action-name {
-    font-size: 0.60rem;
+    font-size: 0.85rem;
     font-weight: 800;
     color: #0f172a;
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
-  /* Increased description font size */
   .action-desc {
-    font-size: 0.54rem;
+    font-size: 0.72rem;
     color: #334155;
-    line-height: 1.15;
+    line-height: 1.25;
   }
 
   .card-footer {
-    margin-top: 3px;
-    padding-top: 2px;
+    margin-top: 8px;
+    padding-top: 4px;
     border-top: 1px solid rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
-    font-size: 0.42rem;
-    font-weight: 600;
+    font-size: 0.6rem;
+    font-weight: 700;
     color: #475569;
     text-transform: uppercase;
     flex-shrink: 0;
   }
-
-  }
 </style>
 </head>
 <body>
+
+<div class="nav-header">
+  <a href="./index.html" class="back-link">← Back to Resource Hub</a>
+</div>
 
 <div class="pokemon-card">
   <div class="card-header">
