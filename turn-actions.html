@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  }
+  
+  body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 30px 15px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Standard Pokémon card size: 2.5 in x 3.5 in */
+  .pokemon-card {
+    width: 2.5in;
+    height: 3.5in;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    padding: 7px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 0 0 1px #f8fafc;
+    border: 6px solid #1d4ed8;
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid rgba(0,0,0,0.15);
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+  }
+
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+
+  .card-badge {
+    font-size: 0.48rem;
+    font-weight: 700;
+    background: #64748b;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .action-row {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 3px 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: visible;
+  }
+
+  .die-slot {
+    width: 0.38in;
+    height: 0.38in;
+    outline: 1.5px dashed #64748b;
+    outline-offset: -2px;
+    border-radius: 4px;
+    background: rgba(241, 245, 249, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 2px 4px 2px 2px;
+  }
+
+  .die-slot::after {
+    content: "🎲";
+    font-size: 0.24in;
+    line-height: 1;
+    opacity: 0.35;
+  }
+
+  .action-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Increased title font size */
+  .action-name {
+    font-size: 0.60rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.1;
+  }
+
+  /* Increased description font size */
+  .action-desc {
+    font-size: 0.54rem;
+    color: #334155;
+    line-height: 1.15;
+  }
+
+  .card-footer {
+    margin-top: 3px;
+    padding-top: 2px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.42rem;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  }
+</style>
+</head>
+<body>
+
+<div class="pokemon-card">
+  <div class="card-header">
+    <span class="card-title">Turn Actions</span>
+    <span class="card-badge">Turn Tracker</span>
+  </div>
+
+  <div class="action-list">
+    
+    <!-- 1. DRAW CARD -->
+    <div class="action-row">
+      <div class="die-slot"></div>
+      <div class="action-details">
+        <div class="action-name">Draw Card</div>
+        <div class="action-desc">Mandatory at start of turn</div>
+      </div>
+    </div>
+
+    <!-- 2. ATTACH ENERGY -->
+    <div class="action-row">
+      <div class="die-slot"></div>
+      <div class="action-details">
+        <div class="action-name">Attach Energy</div>
+        <div class="action-desc">1 Energy from hand to 1 Pokémon</div>
+      </div>
+    </div>
+
+    <!-- 3. PLAY SUPPORTER -->
+    <div class="action-row">
+      <div class="die-slot"></div>
+      <div class="action-details">
+        <div class="action-name">Play Supporter</div>
+        <div class="action-desc">Max 1 per turn (None Turn 1)</div>
+      </div>
+    </div>
+
+    <!-- 4. PLAY STADIUM -->
+    <div class="action-row">
+      <div class="die-slot"></div>
+      <div class="action-details">
+        <div class="action-name">Play Stadium</div>
+        <div class="action-desc">Max 1 per turn (No duplicate names)</div>
+      </div>
+    </div>
+
+    <!-- 5. RETREAT POKÉMON -->
+    <div class="action-row">
+      <div class="die-slot"></div>
+      <div class="action-details">
+        <div class="action-name">Retreat Pokémon</div>
+        <div class="action-desc">Pay cost to switch Active to Bench</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-footer">
+    <span>Turn Checklist</span>
+    <span>PTCG Rule Card</span>
+  </div>
+</div>
+
+</body>
+</html>
