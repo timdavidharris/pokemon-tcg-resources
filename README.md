@@ -18,8 +18,8 @@ A lightweight, retro-styled web directory and quick-reference utility for Pokém
 
 ## Tools Used
 
-* **Google Gemini:** Initial site build out and coding buddy.
-* **Anthropic's Claude:** Retro theming master mind and coding buddy.
+* **Gemini AI Chatbot (by Google):** Initial site build out and coding buddy.
+* **Claude AI Chatbot (by Anthropic):** Retro theming master mind and coding buddy.
 
 ### Why Use AI to Code this Site?
 
