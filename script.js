@@ -8,39 +8,39 @@
    ========================================================= */
 
 const resources = [
-// ==Deck Building & Meta Section==
+// ==Current Meta Section==
   {
     name: "Limitless TCG",
     url: "https://limitlesstcg.com",
-    category: "Deck Building & Meta",
+    category: "Current Meta",
     description: "Tournament decklists, metagame stats, and card database. Best for the competitive season.",
     badge: "Essential"
   },
   {
     name: "Play! Limitless",
     url: "https://play.limitlesstcg.com/decks",
-    category: "Deck Building & Meta",
+    category: "Current Meta",
     description: "Online tournaments, pairings, and community standings. More updated meta deck rankings during the off season.",
     badge: "Tournaments"
   },
   {
     name: "Trainer Hill",
     url: "https://tools.trainerhill.com/",
-    category: "Deck Building & Meta",
+    category: "Current Meta",
     description: "A site that tracks trends in the meta game to breakdown what's leading the pack.",
     badge: "Tournaments"
   },
   {
     name: "Recent Rogue Decks",
     url: "https://roguewatchtower.com/",
-    category: "Deck Building & Meta",
+    category: "Current Meta",
     description: "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
     badge: "Rogue"
   },
   {
     name: "Japanese Deck Lists",
     url: "https://pokecabook.com/",
-    category: "Deck Building & Meta",
+    category: "Current Meta",
     description: "<strong>Disclaimer</strong>: this site is in Japanese and can be difficult to navigate even after your browser translates it.<br><br>This is a great place to look at the cutting edge of what's emerging in Japan.",
     badge: "Rogue"
   },
@@ -72,6 +72,28 @@ const resources = [
     category: "Community",
     description: "International news and meta analysis articles. This site often has the most recent news and focuses on what's released early internationally.",
     badge: "News"
+  },
+// ==Deck Building Section==
+  {
+    name: "PokemonCard.io",
+    url: "https://pokemoncard.io/",
+    category: "Deck Building",
+    description: "Site to build and share deck lists. Focuses on a more social component. You can also play against other people online here.",
+    badge: "Tool"
+  },
+  {
+    name: "My Limitless TCG",
+    url: "https://my.limitlesstcg.com/",
+    category: "Deck Building",
+    description: "Site to build deck lists.",
+    badge: "Tool"
+  },
+  {
+    name: "PKMN Cards",
+    url: "https://pkmncards.com/",
+    category: "Deck Building",
+    description: "Powerful and advanced search tool to look for specific cards. Good to use to check what's currently legal.",
+    badge: "Tool"
   },
 // ==Official & Rules Section==
   {
@@ -110,6 +132,13 @@ const resources = [
     badge: "Tool"
   },
 // ==PTCG Live Section==
+  {
+    name: "Download and Play Pokemon Online (PTCGL)",
+    url: "https://tcg.pokemon.com/en-us/tcgl/",
+    category: "PTCG Live",
+    description: "The official Android, iOS, Windows, and Mac app to play online against others.",
+    badge: "Official"
+  },
   {
     name: "Battle Log Viewer",
     url: "https://www.trainingcourt.app/",
@@ -161,8 +190,9 @@ const badges = {
 };
 
 const categoryOrder = [
-  "Deck Building & Meta",
+  "Current Meta",
   "Community",
+  "Deck Building",
   "PTCG Live",
   "Official & Rules"
 ];
