@@ -4,6 +4,25 @@
    turn-actions.html, and special-condition-rules.html.
    ========================================================= */
 
+/* =========================================================
+   LOCAL FONT DEFINITIONS
+   ========================================================= */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('../assets/fonts/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VT323';
+  src: url('../assets/fonts/VT323-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* TRAINER'S TERMINAL — Pokédex hardware + LCD screen palette */
   --bg: #0a0a12;
