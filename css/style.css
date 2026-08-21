@@ -304,6 +304,7 @@ header p {
   letter-spacing: 0.02em;
 }
 .category-title::before { content: "▸ "; }
+.category-title.favorites-title::before { content: "★ "; }
 
 .link-list {
   display: flex;
@@ -344,6 +345,7 @@ header p {
   }
   .card:hover::before { opacity: 1; }
   .card:hover .card-desc { color: var(--screen-line); }
+  .card:hover .favorite-star:not(.is-favorited) { color: var(--screen-line); }
 }
 
 /* Scoped to .card so these never collide with the rule-card
@@ -361,6 +363,29 @@ header p {
   font-weight: 700;
   font-size: 1.25rem;
   letter-spacing: 0.01em;
+}
+
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.favorite-star {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.1s, transform 0.1s;
+}
+
+.favorite-star:active {
+  transform: scale(0.9);
+}
+
+.favorite-star.is-favorited {
+  color: var(--light-amber);
 }
 
 .badge {

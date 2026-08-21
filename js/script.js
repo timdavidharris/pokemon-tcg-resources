@@ -4,6 +4,39 @@
 
 let resources = [];
 
+// FAVORITES — persisted per-browser via localStorage, no account/login involved
+const FAVORITES_KEY = "ptcg-favorites";
+
+function getFavorites() {
+  try {
+    const stored = localStorage.getItem(FAVORITES_KEY);
+    return new Set(stored ? JSON.parse(stored) : []);
+  } catch (error) {
+    console.error("Error reading favorites from localStorage:", error);
+    return new Set();
+  }
+}
+
+function saveFavorites(favoritesSet) {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favoritesSet]));
+  } catch (error) {
+    console.error("Error saving favorites to localStorage:", error);
+  }
+}
+
+// Resources don't have an explicit id, so the URL (unique per entry) doubles as one.
+function toggleFavorite(url) {
+  const favorites = getFavorites();
+  if (favorites.has(url)) {
+    favorites.delete(url);
+  } else {
+    favorites.add(url);
+  }
+  saveFavorites(favorites);
+  renderLinks(searchInput ? searchInput.value : "");
+}
+
 // SINGLE SOURCE OF TRUTH FOR BADGES
 const badges = {
   "Essential": {
@@ -101,6 +134,55 @@ function renderLinks(filterText = "") {
     return;
   }
 
+  const favorites = getFavorites();
+
+  function buildCard(item) {
+    const card = document.createElement("a");
+    card.className = "card pixel-sm";
+    card.href = item.url;
+
+    if (item.url.startsWith("./")) {
+      card.target = "_self";
+    } else {
+      card.target = "_blank";
+      card.rel = "noopener noreferrer";
+    }
+
+    const badgeInfo = badges[item.badge] || { color: "var(--screen-dim)", darkText: false };
+    const badgeBg = badgeInfo.color;
+    const badgeColor = badgeInfo.darkText ? "var(--screen)" : "var(--ink)";
+    const isFavorited = favorites.has(item.url);
+
+    // A <span> (not a <button>) so it stays valid nested inside the <a> card,
+    // with role/tabindex/aria added so it's still keyboard operable.
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-title">${item.name}</span>
+        <div class="card-header-actions">
+          <span class="favorite-star${isFavorited ? " is-favorited" : ""}" data-url="${item.url}" role="button" tabindex="0" aria-pressed="${isFavorited}" aria-label="${isFavorited ? "Remove from favorites" : "Add to favorites"}">${isFavorited ? "★" : "☆"}</span>
+          <span class="badge" data-badge="${item.badge}" style="background-color: ${badgeBg}; color: ${badgeColor};">${item.badge}</span>
+        </div>
+      </div>
+      <div class="card-desc">${item.description}</div>
+    `;
+    return card;
+  }
+
+  // Pinned favorites section — only shown when at least one favorited
+  // item is present in the current (possibly search-filtered) results.
+  const favoritedItems = filtered.filter(item => favorites.has(item.url));
+  if (favoritedItems.length > 0) {
+    const favHeader = document.createElement("h2");
+    favHeader.className = "category-title favorites-title";
+    favHeader.textContent = "FAVORITES";
+    container.appendChild(favHeader);
+
+    const favList = document.createElement("div");
+    favList.className = "link-list";
+    favoritedItems.forEach(item => favList.appendChild(buildCard(item)));
+    container.appendChild(favList);
+  }
+
   const categories = [...new Set(filtered.map(item => item.category))].sort((a, b) => {
     const indexA = categoryOrder.indexOf(a);
     const indexB = categoryOrder.indexOf(b);
@@ -120,29 +202,7 @@ function renderLinks(filterText = "") {
     list.className = "link-list";
 
     filtered.filter(item => item.category === cat).forEach(item => {
-      const card = document.createElement("a");
-      card.className = "card pixel-sm";
-      card.href = item.url;
-
-      if (item.url.startsWith("./")) {
-        card.target = "_self";
-      } else {
-        card.target = "_blank";
-        card.rel = "noopener noreferrer";
-      }
-
-      const badgeInfo = badges[item.badge] || { color: "var(--screen-dim)", darkText: false };
-      const badgeBg = badgeInfo.color;
-      const badgeColor = badgeInfo.darkText ? "var(--screen)" : "var(--ink)";
-
-      card.innerHTML = `
-        <div class="card-header">
-          <span class="card-title">${item.name}</span>
-          <span class="badge" data-badge="${item.badge}" style="background-color: ${badgeBg}; color: ${badgeColor};">${item.badge}</span>
-        </div>
-        <div class="card-desc">${item.description}</div>
-      `;
-      list.appendChild(card);
+      list.appendChild(buildCard(item));
     });
 
     container.appendChild(list);
@@ -169,6 +229,14 @@ if (searchInput && clearBtn) {
   });
 
   document.addEventListener("click", (e) => {
+    const starTarget = e.target.closest(".favorite-star");
+    if (starTarget) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFavorite(starTarget.dataset.url);
+      return;
+    }
+
     const badgeTarget = e.target.closest("[data-badge]");
     if (!badgeTarget) return;
 
@@ -180,6 +248,16 @@ if (searchInput && clearBtn) {
     const value = badgeTarget.dataset.badge;
     applyFilter(value);
     searchInput.scrollIntoView({ block: "start", behavior: "smooth" });
+  });
+
+  // The star is a <span> (see buildCard), so Enter/Space need to be wired
+  // up manually to keep it keyboard-operable like a real button would be.
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const starTarget = e.target.closest(".favorite-star");
+    if (!starTarget) return;
+    e.preventDefault();
+    toggleFavorite(starTarget.dataset.url);
   });
 }
 
