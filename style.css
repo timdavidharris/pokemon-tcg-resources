@@ -1,3 +1,9 @@
+/* =========================================================
+   POKÉMON TCG RESOURCE HUB — Shared Styles
+   Trainer's Terminal theme, used by index.html,
+   turn-actions.html, and special-condition-rules.html.
+   ========================================================= */
+
 :root {
   /* TRAINER'S TERMINAL — Pokédex hardware + LCD screen palette */
   --bg: #0a0a12;
@@ -18,360 +24,540 @@
   --light-green: #3fae58;
 
   --badge-essential: #86c88a;
-  --badge-tools: #f1b369;
-  --badge-db: #e78280;
-  --badge-meta: #e587b9;
-  --badge-news: #99b3f1;
-  --badge-tournaments: #bf99f1;
+  --badge-tournaments: #f3c969;
+  --badge-market: #e8a15c;
+  --badge-official: #7fb5e0;
+  --badge-news: var(--shell);
+  --badge-tool: #b79ae0;
+  --badge-rogue: #e08bb0;
 }
 
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { 
-  -webkit-tap-highlight-color: transparent; 
-}
+html { -webkit-tap-highlight-color: transparent; }
 
 body {
   font-family: 'VT323', ui-monospace, monospace;
   background-color: var(--bg);
+  background-image: radial-gradient(ellipse at top, rgba(209,56,44,0.10), transparent 60%);
   color: var(--ink);
-  line-height: 1.25;
-  padding: 1.5rem 0.75rem;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
+  line-height: 1.4;
+  padding: 1.25rem 0.75rem 2.5rem;
 }
 
-/* ---------- PIXEL BORDER UTILITY CLASSES ---------- */
-/* Large pixel border for outer hardware frame */
-.pixel-outer {
-  box-shadow:
-    0 -6px 0 0 var(--shell-dark),
-    0 6px 0 0 var(--shell-dark),
-    -6px 0 0 0 var(--shell-dark),
-    6px 0 0 0 var(--shell-dark),
-    0 0 0 3px #000,
-    0 12px 24px rgba(0, 0, 0, 0.6);
+.press {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
 }
 
-/* Screen pixel bezel */
-.pixel-screen {
-  box-shadow:
-    inset 0 0 0 3px var(--shell-dark),
-    0 -3px 0 0 var(--ink),
-    0 3px 0 0 var(--ink),
-    -3px 0 0 0 var(--ink),
-    3px 0 0 0 var(--ink);
+.container {
+  max-width: 560px;
+  margin: 0 auto;
 }
 
-/* Small pixel inset/border for cards, inputs, and elements */
+/* ---------- PIXEL CORNER UTILITY ---------- */
+.pixel-lg {
+  clip-path: polygon(
+    0 10px, 10px 10px, 10px 0,
+    calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px)
+  );
+}
 .pixel-sm {
-  box-shadow:
-    0 -2px 0 0 var(--ink),
-    0 2px 0 0 var(--ink),
-    -2px 0 0 0 var(--ink),
-    2px 0 0 0 var(--ink);
+  clip-path: polygon(
+    0 6px, 6px 6px, 6px 0,
+    calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+    6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+  );
 }
 
-/* ---------- POKÉDEX FRAME ---------- */
-.pokedex {
-  width: 100%;
-  max-width: 960px;
-  background-color: var(--shell);
-  padding: 1rem;
-  position: relative;
+/* ---------- DEX SHELL ---------- */
+.dex-shell {
+  background: var(--shell);
+  background-image: linear-gradient(160deg, var(--shell-light) 0%, var(--shell) 35%, var(--shell-dark) 100%);
+  border: 3px solid var(--shell-dark);
+  padding: 0.85rem 0.85rem 0.6rem;
+  filter: drop-shadow(0 14px 0 rgba(0,0,0,0.35));
 }
 
-.pokedex::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--shell-light);
-  pointer-events: none;
-}
-
-/* Top Hardware Bar (Lights + Brand) */
 .dex-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-bottom: 0.85rem;
-  border-bottom: 3px solid var(--shell-dark);
-  margin-bottom: 1rem;
+  gap: 0.6rem;
+  padding: 0.15rem 0.35rem 0.75rem;
 }
 
-.dex-lights {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.light {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25), 0 0 6px currentColor;
 }
-
-.big-lens {
-  width: 32px;
-  height: 32px;
-  background: var(--light-blue);
-  border: 3px solid #000;
-  box-shadow: inset -3px -3px 0 0 #285ca3, inset 3px 3px 0 0 #95c4ff;
-}
-
-.small-light {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #000;
-}
-.small-light.red { background: var(--shell); }
-.small-light.amber { background: var(--light-amber); }
-.small-light.green { background: var(--light-green); }
+.light-blue  { background: var(--light-blue);  color: var(--light-blue); }
+.light-amber { background: var(--light-amber); color: var(--light-amber); }
+.light-green { background: var(--light-green); color: var(--light-green); }
 
 .dex-brand {
   font-family: 'Press Start 2P', ui-monospace, monospace;
   font-size: 0.65rem;
   color: var(--screen);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 0 var(--shell-dark);
+  letter-spacing: 0.02em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
-/* LCD Screen Area */
+/* ---------- SCREEN ---------- */
 .screen {
-  background-color: var(--screen);
-  padding: 1rem;
-  color: var(--ink);
+  background: var(--screen);
+  border: 3px solid var(--ink);
   position: relative;
+  overflow: hidden;
 }
 
-/* Scanline Overlay */
-.screen::after {
-  content: "";
+.scanlines {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.03),
-    rgba(0, 0, 0, 0.03) 1px,
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(31,46,28,0.06) 0px,
+    rgba(31,46,28,0.06) 1px,
     transparent 1px,
     transparent 3px
   );
-  pointer-events: none;
+  animation: flicker 6s infinite steps(1);
+  z-index: 5;
 }
 
-/* ---------- HEADER & TITLE ---------- */
-.title-bar {
-  text-align: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px dashed var(--screen-line);
+@keyframes flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: 0.94; }
+  98% { opacity: 1; }
 }
 
-h1 {
-  font-family: 'Press Start 2P', ui-monospace, monospace;
-  font-size: 1.15rem;
-  line-height: 1.4;
-  color: var(--ink);
-  text-transform: uppercase;
-  margin-bottom: 0.35rem;
-  letter-spacing: -0.02em;
+@media (prefers-reduced-motion: reduce) {
+  .scanlines { animation: none; }
+  .cursor { animation: none; }
 }
 
-.subtitle {
-  font-size: 1.25rem;
-  color: var(--ink-soft);
-  letter-spacing: 0.05em;
-}
-
-/* ---------- SHARED NAVIGATION HEADER ---------- */
-.nav-header {
-  margin-bottom: 1rem;
+.screen-content {
+  padding: 0.9rem 0.85rem 1rem;
+  position: relative;
 }
 
 .back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.65rem;
+  display: inline-block;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.55rem;
   color: var(--ink);
-  background: var(--screen-dim);
-  padding: 0.4rem 0.6rem;
   text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.1s;
+  background: var(--screen-dim);
+  border: 2px solid var(--ink);
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.back-link:active { background: var(--ink); color: var(--screen); }
+
+header h1 {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
 }
 
-.back-link:hover {
-  background: var(--ink);
-  color: var(--screen);
-}
-
-/* ---------- SEARCH BAR & CONTROLS ---------- */
-.controls-area {
+header p {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
+.cursor {
+  display: inline-block;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* =========================================================
+   INDEX PAGE — search, tag legend, resource cards, QR modal
+   ========================================================= */
+
+/* ---------- SEARCH ---------- */
 .search-box {
-  position: relative;
-  width: 100%;
+  position: sticky;
+  top: 0;
+  background: var(--screen);
+  padding: 0.5rem 0 0.6rem;
+  margin-bottom: 0.35rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.search-input {
-  width: 100%;
-  background: #ffffff;
-  border: 3px solid var(--ink);
-  padding: 0.5rem 2.2rem 0.5rem 0.65rem;
-  font-family: 'VT323', monospace;
-  font-size: 1.35rem;
+.search-prompt {
+  font-size: 1.2rem;
   color: var(--ink);
+  flex-shrink: 0;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.65rem 2.2rem 0.65rem 0.5rem;
+  border: 2px solid var(--ink);
+  background-color: var(--screen-dim);
+  color: var(--ink);
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
   outline: none;
 }
 
-.search-input::placeholder {
-  color: var(--ink-soft);
-}
+.search-box input::placeholder { color: var(--ink-soft); }
+.search-box input:focus { background-color: #fff; }
+
+.search-wrap { position: relative; flex: 1; }
 
 .clear-btn {
+  display: none;
   position: absolute;
-  right: 8px;
+  right: 6px;
   top: 50%;
   transform: translateY(-50%);
   background: var(--shell);
-  color: #fff;
-  border: 1px solid var(--ink);
-  width: 22px;
-  height: 22px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
-  line-height: 20px;
-  text-align: center;
+  color: var(--screen);
+  border: 2px solid var(--ink);
+  width: 28px;
+  height: 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
-  display: none;
-}
-
-/* ---------- LEGEND BAR ---------- */
-.legend-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  align-items: center;
-  margin-top: 0.65rem;
-}
-
-.legend-label {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
-  color: var(--ink-soft);
-  margin-right: 0.2rem;
-}
-
-/* ---------- BADGES ---------- */
-.badge {
-  display: inline-block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
-  padding: 0.25rem 0.4rem;
-  color: var(--ink);
-  border: 1px solid var(--ink);
   line-height: 1;
+}
+
+/* ---------- TAG LEGEND ---------- */
+.tag-legend {
+  background-color: var(--screen-dim);
+  border: 2px solid var(--ink);
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.tag-legend-title {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.55rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.tag-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.4rem 0.75rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   cursor: pointer;
-  user-select: none;
-  transition: transform 0.1s, opacity 0.1s;
 }
 
-.badge:hover {
-  transform: translateY(-1px);
+.legend-item:hover .legend-desc {
+  color: var(--ink);
 }
 
-.badge.active-filter {
-  outline: 2px solid var(--ink);
-  box-shadow: 0 0 0 1px #fff;
+.legend-desc {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.1;
+  transition: color 0.1s;
 }
 
-/* ---------- CATEGORY HEADERS ---------- */
+/* ---------- CATEGORY HEADERS (menu-select bar) ---------- */
 .category-title {
   font-family: 'Press Start 2P', ui-monospace, monospace;
-  font-size: 0.75rem;
-  color: var(--ink);
-  background: var(--screen-line);
-  padding: 0.35rem 0.6rem;
-  margin-top: 1.25rem;
-  margin-bottom: 0.65rem;
-  border-left: 4px solid var(--ink);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 0.62rem;
+  background: var(--ink);
+  color: var(--screen);
+  padding: 0.55rem 0.6rem;
+  margin: 1.1rem 0 0.65rem;
+  letter-spacing: 0.02em;
 }
+.category-title::before { content: "▸ "; }
 
-/* ---------- MAIN RESOURCE CARDS GRID (index.html) ---------- */
 .link-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.75rem;
-}
-
-.card {
-  background-color: var(--screen-dim);
-  padding: 0.75rem;
-  text-decoration: none;
-  color: var(--ink);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid var(--ink);
-  transition: transform 0.1s, background-color 0.1s;
+  gap: 0.6rem;
+}
+
+/* ---------- RESOURCE CARDS ---------- */
+.card {
+  display: block;
   position: relative;
+  background-color: var(--screen-dim);
+  padding: 0.75rem 0.8rem 0.75rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid var(--ink);
+  transition: background-color 0.1s, color 0.1s;
 }
 
-.card:hover {
-  background-color: #f7f9e8;
-  transform: translateY(-2px);
+.card::before {
+  content: "▸";
+  position: absolute;
+  left: 0.4rem;
+  top: 0.78rem;
+  opacity: 0;
+  transition: opacity 0.1s;
 }
 
-.card-header {
+.card:active {
+  background-color: var(--ink);
+  color: var(--screen);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    background-color: var(--ink);
+    color: var(--screen);
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover .card-desc { color: var(--screen-line); }
+}
+
+/* Scoped to .card so these never collide with the rule-card
+   headers/titles on the special-condition-rules page. */
+.card .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.5rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
 }
 
-.card-title {
-  font-family: 'Press Start 2P', ui-monospace, monospace;
-  font-size: 0.7rem;
-  line-height: 1.3;
+.card .card-title {
+  font-family: 'VT323', monospace;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+
+.badge {
+  font-family: 'VT323', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
   color: var(--ink);
+  padding: 0.15rem 0.5rem;
+  border: 1.5px solid var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .card-desc {
-  font-size: 1.15rem;
   color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+/* ---------- BOTTOM BAR ---------- */
+.dex-bottombar {
+  display: flex;
+  justify-content: center;
+  padding: 0.7rem 0.35rem 0.15rem;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--ink);
+  color: var(--screen);
+  text-decoration: none;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.58rem;
+  padding: 0.6rem 0.85rem;
+  border: 2px solid var(--shell-dark);
+}
+.share-link:active { background: var(--shell-dark); }
+
+/* ---------- SUPPORT (KO-FI) SHELL ---------- */
+.support-shell {
+  margin-top: 1rem;
+}
+
+.support-copy {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+footer.legal {
+  text-align: center;
+  margin-top: 1.25rem;
+  color: var(--ink-soft);
+  filter: none;
+}
+footer.legal p {
+  color: #8b93a3;
+  font-size: 0.95rem;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ---------- QR MODAL ---------- */
+#qr-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 18, 0.88);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.qr-panel {
+  background: var(--screen);
+  border: 3px solid var(--ink);
+  padding: 1.25rem;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+}
+
+.qr-panel h3 {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.qr-panel p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.qr-image-frame {
+  background: #ffffff;
+  padding: 10px;
+  border: 2px solid var(--ink);
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.qr-close-btn {
+  width: 100%;
+  background: var(--shell);
+  color: var(--screen);
+  border: 2px solid var(--ink);
+  padding: 0.65rem;
+  font-family: 'VT323', monospace;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.qr-close-btn:active { background: var(--shell-dark); }
+
+/* =========================================================
+   TURN ACTIONS PAGE — checklist rows
+   ========================================================= */
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.action-row {
+  background-color: var(--screen-dim);
+  border: 2px solid var(--ink);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.action-slot {
+  width: 42px;
+  height: 42px;
+  border: 2px dashed var(--ink);
+  background-color: var(--screen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.9rem;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.action-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-title {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.action-desc {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
   line-height: 1.2;
 }
 
-/* ---------- SPECIAL CONDITIONS CARDS GRID (special-condition-rules.html) ---------- */
-.conditions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
+/* Page-level footer bar (renamed from the old .card-footer,
+   which collided with special-condition-rules.html's
+   per-card footer). Used once at the bottom of the page. */
+.page-footer {
+  margin-top: 1rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--screen-line);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   SPECIAL CONDITIONS PAGE — rule cards
+   ========================================================= */
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .rule-card {
   background-color: var(--screen-dim);
   border: 2px solid var(--ink);
-  padding: 0.85rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 0.8rem;
 }
 
-.rule-card .card-header {
-  border-bottom: 2px dashed var(--screen-line);
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.65rem;
+/* Renamed from .card-header to avoid colliding with the
+   resource-card header on index.html. */
+.rule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed var(--ink-soft);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .card-title-wrap {
@@ -385,209 +571,58 @@ h1 {
   line-height: 1;
 }
 
+/* Renamed from .card-title to avoid colliding with the
+   resource-card title on index.html. */
+.rule-title {
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--ink);
+}
+
 .card-badge {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.5rem;
+  font-family: 'VT323', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
   background: var(--ink);
   color: var(--screen);
-  padding: 0.2rem 0.35rem;
+  padding: 0.1rem 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .card-text {
-  font-size: 1.25rem;
   color: var(--ink);
-  line-height: 1.25;
-  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  line-height: 1.35;
 }
 
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.95rem;
-  color: var(--ink-soft);
+/* The global reset strips default padding-left on <ol>/<ul>, which is
+   what normally makes room for markers to render — without it, numbers
+   get clipped against the card edge. Restore it here, scoped so it
+   only affects lists inside rule-card text. */
+.card-text ol,
+.card-text ul {
+  padding-left: 1.5rem;
+  margin: 0.6rem 0;
+}
+
+.card-text li {
+  margin-bottom: 0.4rem;
+}
+
+.card-text li:last-child {
+  margin-bottom: 0;
+}
+
+/* Renamed from .card-footer to avoid colliding with the
+   turn-actions page-level footer bar. */
+.rule-footer {
+  margin-top: 0.6rem;
+  padding-top: 0.3rem;
   border-top: 1px solid var(--screen-line);
-  padding-top: 0.4rem;
-}
-
-/* Condition Orientations & Icons */
-.card-asleep .card-icon { transform: rotate(-90deg); display: inline-block; }
-.card-paralyzed .card-icon { transform: rotate(90deg); display: inline-block; }
-.card-confused .card-icon { transform: rotate(180deg); display: inline-block; }
-
-/* ---------- TURN ACTIONS LIST (turn-actions.html) ---------- */
-.actions-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.action-row {
-  background-color: var(--screen-dim);
-  border: 2px solid var(--ink);
-  padding: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-
-.action-slot {
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--ink);
-  background: var(--screen);
-  flex-shrink: 0;
-}
-
-.action-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.action-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.7rem;
-  color: var(--ink);
-}
-
-.action-desc {
-  font-size: 1.2rem;
-  color: var(--ink-soft);
-  line-height: 1.15;
-}
-
-/* ---------- QR MODAL ---------- */
-.qr-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  width: 100%;
-  background: var(--shell);
-  color: var(--screen);
-  border: 2px solid var(--ink);
-  padding: 0.65rem;
-  font-family: 'VT323', monospace;
-  font-weight: bold;
-  font-size: 1.35rem;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  transition: transform 0.1s, background-color 0.1s;
-}
-
-.qr-btn:hover {
-  background: var(--shell-dark);
-  transform: translateY(-1px);
-}
-
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 10, 18, 0.85);
-  z-index: 999;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.modal-card {
-  background: var(--screen);
-  border: 4px solid var(--ink);
-  padding: 1.25rem;
-  max-width: 320px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-}
-
-.modal-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.75rem;
-  color: var(--ink);
-  margin-bottom: 0.75rem;
-}
-
-.qr-container {
-  background: #ffffff;
-  padding: 0.5rem;
-  border: 2px solid var(--ink);
-  display: inline-block;
-  margin-bottom: 0.75rem;
-}
-
-.qr-container img {
-  display: block;
-  width: 180px;
-  height: 180px;
-  image-rendering: pixelated;
-}
-
-.close-btn {
-  background: var(--shell);
-  color: var(--screen);
-  border: 2px solid var(--ink);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  background: var(--shell-dark);
-}
-
-/* ---------- HARDWARE BOTTOM BAR ---------- */
-.dex-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  padding-top: 0.85rem;
-  border-top: 3px solid var(--shell-dark);
-}
-
-.dpad {
-  position: relative;
-  width: 36px;
-  height: 36px;
-}
-.dpad-h {
-  position: absolute;
-  top: 12px;
-  left: 0;
-  width: 36px;
-  height: 12px;
-  background: var(--shell-dark);
-  border: 1px solid #000;
-}
-.dpad-v {
-  position: absolute;
-  top: 0;
-  left: 12px;
-  width: 12px;
-  height: 36px;
-  background: var(--shell-dark);
-  border: 1px solid #000;
-}
-
-.speaker-grille {
-  display: flex;
-  gap: 4px;
-}
-.speaker-line {
-  width: 4px;
-  height: 24px;
-  background: var(--shell-dark);
-  border: 1px solid #000;
-}
-
-/* ---------- RESPONSIVE BREAKPOINTS ---------- */
-@media (max-width: 480px) {
-  body { padding: 0.5rem 0.25rem; }
-  .pokedex { padding: 0.65rem; }
-  .screen { padding: 0.65rem; }
-  h1 { font-size: 0.95rem; }
-  .link-list, .conditions-grid { grid-template-columns: 1fr; }
-  .dex-brand { font-size: 0.55rem; }
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
 }
