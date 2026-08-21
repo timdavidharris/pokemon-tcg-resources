@@ -8,6 +8,7 @@
    ========================================================= */
 
 const resources = [
+// ==Deck Building & Meta Section==
   {
     name: "Limitless TCG",
     url: "https://limitlesstcg.com",
@@ -15,6 +16,35 @@ const resources = [
     description: "Tournament decklists, metagame stats, and card database. Best for the competitive season.",
     badge: "Essential"
   },
+  {
+    name: "Play! Limitless",
+    url: "https://play.limitlesstcg.com/decks",
+    category: "Deck Building & Meta",
+    description: "Online tournaments, pairings, and community standings. More updated meta deck rankings during the off season.",
+    badge: "Tournaments"
+  },
+  {
+    name: "Trainer Hill",
+    url: "https://tools.trainerhill.com/",
+    category: "Deck Building & Meta",
+    description: "A site that tracks trends in the meta game to breakdown what's leading the pack.",
+    badge: "Tournaments"
+  },
+  {
+    name: "Recent Rogue Decks",
+    url: "https://roguewatchtower.com/",
+    category: "Deck Building & Meta",
+    description: "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
+    badge: "Rogue"
+  },
+  {
+    name: "Japanese Deck Lists",
+    url: "https://pokecabook.com/",
+    category: "Deck Building & Meta",
+    description: "<strong>Disclaimer</strong>: this site is in Japanese and can be difficult to navigate even after your browser translates it.<br><br>This is a great place to look at the cutting edge of what's emerging in Japan.",
+    badge: "Rogue"
+  },
+// ==Community Section==
   {
     name: "Main PTCG Subreddit",
     url: "https://www.reddit.com/r/pkmntcg/",
@@ -43,13 +73,7 @@ const resources = [
     description: "International news and meta analysis articles. This site often has the most recent news and focuses on what's released early internationally.",
     badge: "News"
   },
-  {
-    name: "Play! Limitless",
-    url: "https://play.limitlesstcg.com/decks",
-    category: "Deck Building & Meta",
-    description: "Online tournaments, pairings, and community standings. More updated meta deck rankings during the off season.",
-    badge: "Tournaments"
-  },
+// ==Official & Rules Section==
   {
     name: "Official Rules & Docs",
     url: "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources",
@@ -65,6 +89,13 @@ const resources = [
     badge: "Official"
   },
   {
+    name: "Official News about the TCG",
+    url: "https://www.pokemon.com/us/news/all/content-pillars.trading-card-game",
+    category: "Official & Rules",
+    description: "The latest news from Pokemon.com directly.",
+    badge: "News"
+  },
+  {
     name: "Special Conditions Quick Reference",
     url: "./special-condition-rules.html",
     category: "Official & Rules",
@@ -78,13 +109,7 @@ const resources = [
     description: "Quick reference card to remind you what actions you can only take 1 of per turn. I put these together based on what's in the official rule book.",
     badge: "Tool"
   },
-  {
-    name: "Official News about the TCG",
-    url: "https://www.pokemon.com/us/news/all/content-pillars.trading-card-game",
-    category: "Official & Rules",
-    description: "The latest news from Pokemon.com directly.",
-    badge: "News"
-  },
+// ==PTCG Live Section==
   {
     name: "Battle Log Viewer",
     url: "https://www.trainingcourt.app/",
@@ -93,32 +118,11 @@ const resources = [
     badge: "Tool"
   },
   {
-    name: "Trainer Hill",
-    url: "https://tools.trainerhill.com/",
-    category: "Deck Building & Meta",
-    description: "A site that tracks trends in the meta game to breakdown what's leading the pack.",
-    badge: "Tournaments"
-  },
-  {
-    name: "Recent Rogue Decks",
-    url: "https://roguewatchtower.com/",
-    category: "Deck Building & Meta",
-    description: "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
-    badge: "Rogue"
-  },
-  {
     name: "TCG Live Replay Tool",
     url: "https://www.ptcglreplay.com/",
     category: "PTCG Live",
     description: "A hugely impressive passion project that allows you to take your Live logs and watch them as a replay. Typically works best on a computer (vs mobile).",
     badge: "Tool"
-  },
-  {
-    name: "Japanese Deck Lists",
-    url: "https://pokecabook.com/",
-    category: "Deck Building & Meta",
-    description: "<strong>Disclaimer</strong>: this site is in Japanese and can be difficult to navigate even after your browser translates it.<br><br>This is a great place to look at the cutting edge of what's emerging in Japan.",
-    badge: "Rogue"
   },
 ];
 
@@ -160,8 +164,7 @@ const categoryOrder = [
   "Deck Building & Meta",
   "Community",
   "PTCG Live",
-  "Official & Rules",
-  "Market & Prices"
+  "Official & Rules"
 ];
 
 function renderLegend() {
