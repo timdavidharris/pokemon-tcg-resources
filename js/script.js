@@ -150,7 +150,7 @@ const resources = [
     name: "TCG Live Replay Tool",
     url: "https://www.ptcglreplay.com/",
     category: "PTCG Live",
-    description: "A hugely impressive passion project that allows you to take your Live logs and watch them as a replay. Typically works best on a computer (vs mobile).",
+    description: "A hugely impressive passion project that allows you to take your Live logs and watch them as a replay.",
     badge: "Tool"
   },
 ];
