@@ -403,6 +403,20 @@ header p {
 }
 .share-link:active { background: var(--shell-dark); }
 
+/* GitHub Link */
+.github-link,
+.github-link:visited,
+.github-link:active {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Maintain style on hover while offering subtle visual feedback */
+.github-link:hover {
+  color: #ffffff;
+  opacity: 0.8;
+}
+
 /* ---------- SUPPORT (KO-FI) SHELL ---------- */
 .support-shell {
   margin-top: 1rem;
