@@ -192,7 +192,13 @@ function renderLinks(filterText = "") {
     return indexA - indexB;
   });
 
-  categories.forEach(cat => {
+categories.forEach(cat => {
+    // Filter to items matching the category AND NOT present in favorites
+    const nonFavItems = filtered.filter(item => item.category === cat && !favorites.has(item.url));
+
+    // Hide the category header completely if all items in it are favorited
+    if (nonFavItems.length === 0) return;
+
     const catHeader = document.createElement("h2");
     catHeader.className = "category-title";
     catHeader.textContent = cat;
@@ -201,7 +207,7 @@ function renderLinks(filterText = "") {
     const list = document.createElement("div");
     list.className = "link-list";
 
-    filtered.filter(item => item.category === cat).forEach(item => {
+    nonFavItems.forEach(item => {
       list.appendChild(buildCard(item));
     });
 
