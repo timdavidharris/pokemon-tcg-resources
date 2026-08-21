@@ -596,6 +596,24 @@ footer.legal p {
   line-height: 1.35;
 }
 
+/* The global reset strips default padding-left on <ol>/<ul>, which is
+   what normally makes room for markers to render — without it, numbers
+   get clipped against the card edge. Restore it here, scoped so it
+   only affects lists inside rule-card text. */
+.card-text ol,
+.card-text ul {
+  padding-left: 1.5rem;
+  margin: 0.6rem 0;
+}
+
+.card-text li {
+  margin-bottom: 0.4rem;
+}
+
+.card-text li:last-child {
+  margin-bottom: 0;
+}
+
 /* Renamed from .card-footer to avoid colliding with the
    turn-actions page-level footer bar. */
 .rule-footer {
