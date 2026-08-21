@@ -10,6 +10,7 @@ A lightweight, retro-styled web directory and quick-reference utility for Pokém
 
 * **Curated Resource Directory:** Quick access to top competitive meta trackers, deck builders, official rulebooks, and community hubs.
 * **Instant Filtering & Search:** Real-time text search and interactive tag-filtering for seamless navigation.
+* **Favorites:** Click on the star to favorite one of the resources. It will save to local device storage.
 * **Built-in Quick References:** Custom internal rule cheat-sheets for **Special Conditions** and **Turn Actions**.
 * **Mobile-Friendly QR Sharing:** Built-in modal generator to easily share the hub with local opponents or league members via QR code.
 * **Retro Game Boy Aesthetic:** Pixel-art UI styling complete with pixel borders, scanline overlays, and retro typography.
