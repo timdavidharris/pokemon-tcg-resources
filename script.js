@@ -297,8 +297,7 @@ const qrImg = document.getElementById('qr-image');
 if (qrModal && openBtn && closeBtn && qrImg) {
   openBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const currentUrl = encodeURIComponent(window.location.href);
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${currentUrl}&color=1f2e1c`;
+    qrImg.src = `./qr-code.png`;
     qrModal.style.display = 'flex';
   });
 
