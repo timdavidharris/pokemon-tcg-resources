@@ -79,16 +79,55 @@ const categoryOrder = [
   "Official & Rules"
 ];
 
+// LOADING BAR — indeterminate (we don't know real fetch progress), so it
+// just loops continuously to signal "still working" rather than faking a percentage.
+let loadingInterval = null;
+const LOADING_SEGMENTS = 14;
+
+function showLoadingBar(container) {
+  let filled = 0;
+
+  container.innerHTML = `
+    <div class="loading-wrap">
+      <div class="loading-label">LOADING RESOURCES</div>
+      <div class="loading-bar" id="loadingBar"></div>
+    </div>
+  `;
+
+  const barEl = document.getElementById("loadingBar");
+
+  function tick() {
+    filled = (filled % LOADING_SEGMENTS) + 1;
+    const bars = "|".repeat(filled);
+    const spaces = " ".repeat(LOADING_SEGMENTS - filled);
+    barEl.textContent = `[${bars}${spaces}]`;
+  }
+
+  tick();
+  loadingInterval = setInterval(tick, 110);
+}
+
+function stopLoadingBar() {
+  if (loadingInterval) {
+    clearInterval(loadingInterval);
+    loadingInterval = null;
+  }
+}
+
 async function fetchResources() {
   const container = document.getElementById("linksContainer");
   if (!container) return; // Exit if not on index.html
+
+  showLoadingBar(container);
 
   try {
     const response = await fetch("./content/resources.json");
     if (!response.ok) throw new Error("Failed to load JSON data.");
     resources = await response.json();
+    stopLoadingBar();
     renderLinks();
   } catch (error) {
+    stopLoadingBar();
     console.error("Error fetching resource cards:", error);
     container.innerHTML = `<p style="text-align:center; color: var(--ink-soft); margin-top:2rem;">ERROR LOADING RESOURCES.</p>`;
   }
@@ -171,6 +210,8 @@ function renderLinks(filterText = "") {
   // Pinned favorites section — only shown when at least one favorited
   // item is present in the current (possibly search-filtered) results.
   const favoritedItems = filtered.filter(item => favorites.has(item.url));
+  const nonFavoritedItems = filtered.filter(item => !favorites.has(item.url));
+
   if (favoritedItems.length > 0) {
     const favHeader = document.createElement("h2");
     favHeader.className = "category-title favorites-title";
@@ -183,7 +224,7 @@ function renderLinks(filterText = "") {
     container.appendChild(favList);
   }
 
-  const categories = [...new Set(filtered.map(item => item.category))].sort((a, b) => {
+  const categories = [...new Set(nonFavoritedItems.map(item => item.category))].sort((a, b) => {
     const indexA = categoryOrder.indexOf(a);
     const indexB = categoryOrder.indexOf(b);
     if (indexA === -1 && indexB === -1) return a.localeCompare(b);
@@ -192,13 +233,7 @@ function renderLinks(filterText = "") {
     return indexA - indexB;
   });
 
-categories.forEach(cat => {
-    // Filter to items matching the category AND NOT present in favorites
-    const nonFavItems = filtered.filter(item => item.category === cat && !favorites.has(item.url));
-
-    // Hide the category header completely if all items in it are favorited
-    if (nonFavItems.length === 0) return;
-
+  categories.forEach(cat => {
     const catHeader = document.createElement("h2");
     catHeader.className = "category-title";
     catHeader.textContent = cat;
@@ -207,7 +242,7 @@ categories.forEach(cat => {
     const list = document.createElement("div");
     list.className = "link-list";
 
-    nonFavItems.forEach(item => {
+    nonFavoritedItems.filter(item => item.category === cat).forEach(item => {
       list.appendChild(buildCard(item));
     });
 
