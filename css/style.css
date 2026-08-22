@@ -25,7 +25,7 @@
 
 :root {
   /* TRAINER'S TERMINAL — Pokédex hardware + LCD screen palette */
-  --bg: #0a0a12;
+  --bg: #454555;
 
   --shell: #d1382c;        /* Pokédex red exterior */
   --shell-dark: #7a1f16;   /* shell shading / borders */
@@ -58,10 +58,25 @@ html { -webkit-tap-highlight-color: transparent; }
 body {
   font-family: 'VT323', ui-monospace, monospace;
   background-color: var(--bg);
-  background-image: radial-gradient(ellipse at top, rgba(209,56,44,0.10), transparent 60%);
+  background-image:
+    radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%),
+    radial-gradient(ellipse at top, rgba(209,56,44,0.16), transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(74,144,217,0.11), transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(63,174,88,0.10), transparent 50%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 32px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 32px);
   color: var(--ink);
   line-height: 1.4;
   padding: 1.25rem 0.75rem 2.5rem;
+}
+
+/* Keep the backdrop anchored on taller desktop viewports so it doesn't
+   just scroll away above the fold; skipped on mobile to avoid any
+   background-attachment scroll jank on phones. */
+@media (min-width: 768px) {
+  body {
+    background-attachment: fixed;
+  }
 }
 
 .press {
