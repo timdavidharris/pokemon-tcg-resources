@@ -28,7 +28,7 @@
     "badge": "Tournaments"
   },
   {
-    "name": "Recent Rogue Decks",
+    "name": "Rogue Watchtower",
     "url": "https://roguewatchtower.com/",
     "category": "Current Meta",
     "description": "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
@@ -133,7 +133,7 @@
     "badge": "Official"
   },
   {
-    "name": "Battle Log Viewer",
+    "name": "Training Court",
     "url": "https://www.trainingcourt.app/",
     "category": "PTCG Live",
     "description": "A site where you can track your win/lose rates for games on Live and even track your tournaments too. It offers a more readable format for reading PTCG Live logs.",
