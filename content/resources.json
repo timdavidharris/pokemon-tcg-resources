@@ -20,6 +20,13 @@
     "description": "A site that tracks trends in the meta game to breakdown what's leading the pack.",
     "badge": "Tournaments"
   },
+ {
+    "name": "Ciphermaniac",
+    "url": "https://ciphermaniac.com/",
+    "category": "Current Meta",
+    "description": "Data about meta deck trends, top cards, and other statistics. Has cool breakdowns for tech cards, and matchup specific data.",
+    "badge": "Tournaments"
+  },
   {
     "name": "Recent Rogue Decks",
     "url": "https://roguewatchtower.com/",
