@@ -34,6 +34,13 @@
     "description": "A site that tracks online tournaments from LimitlesTCG and highlights rogue decks that placed well. Great inspiration if you need to resist the meta behemoths.",
     "badge": "Rogue"
   },
+ {
+    "name": "Deltias Gaming",
+    "url": "https://deltiasgaming.com/category/pokemon-tcg/",
+    "category": "Current Meta",
+    "description": "This site focuses on rogue decks. They also have some news articles as well.",
+    "badge": "Rogue"
+  },
   {
     "name": "Main PTCG Subreddit",
     "url": "https://www.reddit.com/r/pkmntcg/",
