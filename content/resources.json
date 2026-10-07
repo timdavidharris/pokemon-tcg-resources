@@ -84,6 +84,13 @@
     "badge": "Tool"
   },
   {
+    "name": "Limitless TCG: Advanced Search",
+    "url": "https://limitlesstcg.com/cards/advanced",
+    "category": "Deck Building",
+    "description": "Powerful and advanced search tool, good for finding cards with specific text or specific attack cost(s).",
+    "badge": "Tool"
+  },
+  {
     "name": "PKMN Cards",
     "url": "https://pkmncards.com/",
     "category": "Deck Building",
