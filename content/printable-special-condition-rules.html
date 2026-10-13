@@ -9,7 +9,7 @@
   }
   
   body {
-    background-color: #0f172a;
+    background-color: #ffffff;
     color: #f8fafc;
     padding: 30px 15px;
     margin: 0;
@@ -64,10 +64,42 @@
     border-color: #22c55e;
   }
   .card-checkup,
-  .card-reference,
   .card-recovering {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     border-color: #64748b;
+  }
+
+  .card-reference,
+  .card-qr {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-color: #1c1917;
+  }
+  .qr-box {
+    background: #ffffff;
+    border-radius: 6px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .qr-caption {
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+  .qr-box img {
+    width: 1.7in;
+    height: 1.7in;
+    display: block;
+    image-rendering: pixelated;
+    background: #ffffff;
+    padding: 4px;
+    border: 2px solid #1c1917;
+    border-radius: 8px;
   }
 
   .card-header {
@@ -312,6 +344,18 @@
     <div class="card-footer">
       <span>Pokémon Checkup</span>
       <span>PTCG Rule Card</span>
+    </div>
+  </div>
+
+  <!-- RESOURCE HUB QR CARD -->
+  <div class="pokemon-card card-qr">
+    <div class="card-header">
+      <span class="card-title">Trainer's Terminal</span>
+      <span class="card-badge">Website</span>
+    </div>
+    <div class="qr-box">
+      <img src="../assets/img/qr-code.png" alt="QR code for the Pokémon TCG Resource Hub">
+      <div class="qr-caption">Free Pokémon TCG links in one place: current meta, deck builders, official rulings, and quick-reference rule cards.</div>
     </div>
   </div>
 
