@@ -729,3 +729,66 @@ footer.legal p {
   color: var(--ink-soft);
   text-transform: uppercase;
 }
+
+/* =========================================================
+   DESKTOP LAYOUT
+   Mobile styles above are untouched; everything below only
+   kicks in on wider viewports. Kept at the bottom of the file
+   so it overrides the base rules by source order.
+   ========================================================= */
+
+@media (min-width: 900px) {
+  body { padding: 2.5rem 1.5rem 3.5rem; }
+
+  .container { max-width: 980px; }
+
+  .screen-content { padding: 1.5rem 1.75rem 1.75rem; }
+
+  header h1 { font-size: 1.4rem; }
+  header p  { font-size: 1.25rem; }
+
+  /* Index: resource cards in 2 columns. Flex-wrap (instead of grid) so a
+     short last row, e.g. an odd card out, is centered rather than
+     left-aligned. Cards in the same row still stretch to equal height. */
+  .link-list {
+    --cols: 2;
+    --gap: 0.75rem;
+    display: flex;
+    flex-direction: row; /* base .link-list is column, so reset it here */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gap);
+  }
+  .link-list > .card {
+    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  }
+
+  /* Index: tag legend 3 across */
+  .tag-legend-grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* Special conditions: 2 columns, Pokémon Checkup card spans full width */
+  .card-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .card-list .rule-card:last-child { grid-column: 1 / -1; }
+
+  /* Turn actions: a 5-row checklist reads better narrow, so keep it
+     centered at a comfortable width instead of stretching it. */
+  .action-list,
+  .turn-end-note,
+  .page-footer {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Keep legal text at a readable line length */
+  footer.legal p { max-width: 720px; }
+}
+
+@media (min-width: 1300px) {
+  .container { max-width: 1160px; }
+  .link-list { --cols: 3; }
+}
