@@ -56,6 +56,13 @@
     "badge": "Essential"
   },
   {
+    "name": "MyPoke Space",
+    "url": "https://mypoke.space/",
+    "category": "Community",
+    "description": "A little bit of a MySpace revival for the Pokemon TCG community. Also a place to track your tournaments, PTCG Live games, and data on meta trends. Very much a one-stop-shop for your friends, play history, and meta insights.",
+    "badge": "Essential"
+  },
+  {
     "name": "Bill's Archive",
     "url": "https://billsarchive.com/calendar.html",
     "category": "Community",
